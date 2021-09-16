@@ -7,6 +7,78 @@ class Landing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/icon1.png"),
+                  scale: 1,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: "SarpraS\n\n",
+                          style: blackTextStyle.copyWith(
+                              fontSize: 30, fontWeight: semiBold)),
+                      TextSpan(
+                          text: "Peminjaman Barang",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 27,
+                          ))
+                    ],
+                  ),
+                ),
+                FittedBox(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Dashboard();
+                        },
+                      ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 25),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: kBlueColor,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Text("MASUK APLIKASI",
+                              style: blackTextStyle.copyWith(
+                                fontSize: 20,
+                              )),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

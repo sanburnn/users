@@ -8,7 +8,7 @@ Color kGreenColor = Color(0xff71AFA0);
 Color kGreyColor = Color(0xff9C9DB1);
 Color kPurpleColor = Color(0xff5C42D7);
 Color kLightGreyColor = Color(0xffE6EAED);
-
+Color kBlueColor = Color(0xFF65AADF);
 TextStyle whiteTextStyle = GoogleFonts.poppins(
   color: kWhiteColor,
 );

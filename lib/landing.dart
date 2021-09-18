@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:users/bottom_nav_screen.dart';
 import 'package:users/theme.dart';
 import 'package:users/dashboard.dart';
 
 class Landing extends StatelessWidget {
-  const Landing({Key? key}) : super(key: key);
+  const Landing({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Landing extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/icon1.png"),
+                  image: AssetImage("assets/images/icon1.png"),
                   scale: 1,
                 ),
               ),
@@ -46,7 +47,7 @@ class Landing extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Dashboard();
+                          return BottomNavScreen();
                         },
                       ));
                     },

@@ -12,7 +12,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     Dashboard(),
     Kategori(),
-    Scaffold(),
+    Users(),
   ];
   int _currentIndex = 0;
 
@@ -30,7 +30,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
         elevation: 0.0,
-        items: [Icons.home, Icons.insert_chart, Icons.event_note]
+        items: [
+          Icons.home,
+          Icons.credit_card,
+          Icons.supervised_user_circle_outlined
+        ]
             .asMap()
             .map((key, value) => MapEntry(
                   key,

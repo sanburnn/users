@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:users/config/palette.dart';
 
 class Users extends StatefulWidget {
   @override
@@ -19,13 +20,16 @@ class UsersState extends State<Users> {
       child: Scaffold(
         body: Center(
           child: ElevatedButton(
-            onPressed: () {
-              SystemNavigator.pop();
+              onPressed: () {
+                SystemNavigator.pop();
 
-              // exit(0);
-            },
-            child: Text('LogOut'),
-          ),
+                // exit(0);
+              },
+              child: Text('Log Out'),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(180, 50),
+                primary: Palette.primaryColor,
+              )),
         ),
       ),
     );

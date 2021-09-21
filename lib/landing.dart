@@ -16,7 +16,7 @@ class Landing extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/icon1.png"),
+                  image: AssetImage("assets/images/logo1.png"),
                   scale: 1,
                 ),
               ),

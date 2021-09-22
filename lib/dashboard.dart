@@ -18,7 +18,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       //hapus appBar untuk menhilangkan Appbarnya OKEEEEEE!!!!
       //stres dikit tapi gpp
-      appBar: CustomAppBar(),
+      // appBar: CustomAppBar(),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
@@ -203,6 +203,14 @@ class _DashboardState extends State<Dashboard> {
 
   SliverToBoxAdapter _kategoriTest(double screenHeight) {
     return SliverToBoxAdapter(
+        child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Kategori(),
+            ));
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 10.0,
@@ -219,7 +227,7 @@ class _DashboardState extends State<Dashboard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Image.asset(''),
+            Image.asset('images/elktronik1.png'),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +245,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   SliverToBoxAdapter _kategoriTest2(double screenHeight) {
@@ -266,13 +274,13 @@ class _DashboardState extends State<Dashboard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Image.asset(''),
+            Image.asset('images/atk.png'),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Ghoib',
+                  'Alat Tulis Kerja',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,

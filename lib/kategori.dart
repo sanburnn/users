@@ -73,7 +73,7 @@ class _KategoriState extends State<Kategori> {
                 ),
               ),
               subtitle: Text(
-                stok,
+                "stok : $stok",
                 style: TextStyle(fontSize: 15),
               ),
               onTap: () => Navigator.push(

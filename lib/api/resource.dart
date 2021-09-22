@@ -8,7 +8,7 @@ import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 
 class Resource {
-  var uri = "https://maisyaroh.com/sarpras/api";
+  var uri = "https://maisyaroh.com/server_sarpras/api";
 
   Future getBarang() async {
     var url = Uri.parse(uri + '/barang');

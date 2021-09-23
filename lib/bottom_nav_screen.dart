@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:users/histori.dart';
 import 'package:users/screens.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     Dashboard(),
     Kategori(),
-    Users(),
+    Histori(),
   ];
   int _currentIndex = 0;
 

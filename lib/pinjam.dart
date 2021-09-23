@@ -101,10 +101,15 @@ class _PinjamFormState extends State<PinjamForm> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               margin: EdgeInsets.only(bottom: 10),
               child: TextField(
                 controller: tanggalPinjamController,
+                decoration: InputDecoration(
+                    hintText: "Tanggal Pinjam",
+                    labelText: "Tanggal Pinjam",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0))),
                 textAlign: TextAlign.left,
                 onTap: () async {
                   DateTime date = DateTime(1900);
@@ -113,7 +118,7 @@ class _PinjamFormState extends State<PinjamForm> {
                   date = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
+                    firstDate: DateTime.now().subtract(Duration(days: 0)),
                     lastDate: DateTime(2100),
                   );
 
@@ -125,10 +130,15 @@ class _PinjamFormState extends State<PinjamForm> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               margin: EdgeInsets.only(bottom: 10),
               child: TextField(
                 controller: tanggalKembaliController,
+                decoration: InputDecoration(
+                    hintText: "Tanggal Kembali",
+                    labelText: "Tanggal Kembali",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0))),
                 textAlign: TextAlign.left,
                 onTap: () async {
                   DateTime date = DateTime(1900);
@@ -137,7 +147,7 @@ class _PinjamFormState extends State<PinjamForm> {
                   date = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
+                    firstDate: DateTime.now().subtract(Duration(days: 0)),
                     lastDate: DateTime(2100),
                   );
 

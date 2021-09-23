@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:users/landing.dart';
-
-
 void main() {
   runApp(MyApp());
 }

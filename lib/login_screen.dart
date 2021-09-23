@@ -1,34 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:users/mixins/helper.dart';
 
-import 'package:users/mixins/validation_mixin.dart';
+import '../blocs/form_bloc.dart';
+import '../providers/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  createState() {
-    return _LoginScreen();
-  }
-}
+class LoginScreen extends StatelessWidget {
+  // single approch way
+  // final bloc = new FormBloc();
 
-class _LoginScreen extends State<LoginScreen> with ValidationMixin {
-  final _formKey = GlobalKey<FormState>();
-  String email = "";
-  String password = "";
-  bool checked = false;
-
+  @override
   Widget build(BuildContext context) {
+    final FormBloc formBloc = Provider.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.black12,
-      body: Container(
-        margin: EdgeInsets.only(top: 300.0, left: 30.0, right: 30.0),
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.only(top: 100.0, left: 50.0, right: 50.0),
+          height: 550.0,
+          child: Form(
             child: Column(
               children: <Widget>[
-                emailField(),
-                passwordField(),
-                checkbox(),
-                button(),
+                _emailField(formBloc),
+                _passwordField(formBloc),
+                Container(
+                  width: 300,
+                  height: 35,
+                  child: Helper().errorMessage(formBloc),
+                ),
+                _checkBox(),
+                _buttonField(formBloc),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/forgot_password'),
+                      child: Container(
+                        child: Text('Forgot password?'),
+                        alignment: Alignment.bottomLeft,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/signup'),
+                      child: Container(
+                        child: Text('Register'),
+                        alignment: Alignment.bottomLeft,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -37,82 +57,75 @@ class _LoginScreen extends State<LoginScreen> with ValidationMixin {
     );
   }
 
-  Widget emailField() {
-    
-    var validateEmail;
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      validator: validateEmail,
-      onSaved: (value) {
-        setState(() {
-          email = value;
+  Widget _emailField(FormBloc bloc) {
+    return StreamBuilder<String>(
+        stream: bloc.email,
+        builder: (context, snapshot) {
+          return TextField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              hintText: 'you@example.com',
+              labelText: 'Email',
+              errorText: snapshot.error,
+            ),
+            onChanged: bloc.changeEmail,
+          );
         });
-      },
-      decoration: const InputDecoration(
-          icon: Icon(Icons.email),
-          hintText: 'someone@company.com',
-          labelText: 'Email'),
-    );
   }
 
-  Widget passwordField() {
-    var validatePassword;
-    return TextFormField(
-      obscureText: true,
-      validator: validatePassword,
-      onSaved: (value) {
-        setState(() {
-          password = value;
+  Widget _passwordField(FormBloc bloc) {
+    return StreamBuilder<String>(
+        stream: bloc.password,
+        builder: (context, snapshot) {
+          return TextField(
+            obscureText: true,
+            onChanged: bloc.changePassword,
+            maxLength: 20,
+            decoration: InputDecoration(
+              hintText: '',
+              labelText: 'Password',
+              errorText: snapshot.error,
+            ),
+          );
         });
-      },
-      decoration: const InputDecoration(
-          icon: Icon(Icons.visibility_off),
-          hintText: 'Enter password',
-          labelText: 'Password'),
-    );
   }
 
-  Widget checkbox() {
+  Widget _checkBox() {
     return Row(
       children: <Widget>[
         Checkbox(
-          value: checked,
-          onChanged: (isChecked) => setState(() => checked = isChecked),
-          activeColor: Colors.blue,
-          focusColor: Colors.pink,
+          onChanged: (checked) => {},
+          value: true,
         ),
         Text('keep me logged in'),
       ],
     );
   }
 
-  Widget button() {
-    return Container(
-      alignment: Alignment.bottomRight,
-      margin: EdgeInsets.only(top: 100.0, left: 130.0),
-      child: Row(
-        children: <Widget>[
-          Text(
-            'Login',
-            style: TextStyle(
-              color: Colors.blue[400],
-              fontSize: 20.0,
+  Widget _buttonField(FormBloc bloc) {
+    return StreamBuilder<bool>(
+        stream: bloc.submitValidForm,
+        builder: (context, snapshot) {
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            // ignore: deprecated_member_use
+            child: RaisedButton(
+              onPressed: () {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return null;
+                }
+                bloc.login(context);
+              },
+              child: const Icon(Icons.arrow_forward),
+              color: Colors.amber,
+              clipBehavior: Clip.hardEdge,
+              elevation: 10,
+              disabledColor: Colors.blueGrey,
+              disabledElevation: 10,
+              disabledTextColor: Colors.white,
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            splashColor: Colors.pink[300],
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                // print
-                _formKey.currentState.save();
-                print('$email with $password is valid');
-              }
-            },
-            color: Colors.blue,
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

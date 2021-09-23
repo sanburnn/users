@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:users/providers/provider.dart';
 import 'package:users/forgot_password.dart';
-import 'package:users/dashboard.dart';
+
 import 'package:users/login_screen.dart';
 import 'package:users/signup_screen.dart';
 import 'package:users/services/auth_service.dart';
 import 'package:users/bottom_nav_screen.dart';
-
 
 class App extends StatelessWidget {
   @override
@@ -14,6 +13,14 @@ class App extends StatelessWidget {
     return Provider(
       child: MaterialApp(
         title: "LOGIN",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            color: const Color(0xFF65AADF),
+          ),
+          scaffoldBackgroundColor: Colors.white,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
         home: FutureBuilder(
           future: AuthService.getToken(),
           builder: (_, snapshot) {

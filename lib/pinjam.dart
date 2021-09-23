@@ -101,10 +101,15 @@ class _PinjamFormState extends State<PinjamForm> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               margin: EdgeInsets.only(bottom: 10),
               child: TextField(
                 controller: tanggalPinjamController,
+                    decoration: InputDecoration(
+                      hintText: "Tanggal Peminjaman",
+                      labelText: "Tanggal Peminjaman",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0))),
                 textAlign: TextAlign.left,
                 onTap: () async {
                   DateTime date = DateTime(1900);
@@ -125,10 +130,17 @@ class _PinjamFormState extends State<PinjamForm> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              
+              padding: EdgeInsets.symmetric(horizontal: 10),
               margin: EdgeInsets.only(bottom: 10),
               child: TextField(
+                
                 controller: tanggalKembaliController,
+                decoration: InputDecoration(
+                      hintText: "Tanggal Pengembalian",
+                      labelText: "Tanggal Pengembalian",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0))),
                 textAlign: TextAlign.left,
                 onTap: () async {
                   DateTime date = DateTime(1900);

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:users/bottom_nav_screen.dart';
+
 import 'package:users/landing.dart';
-import 'package:users/dashboard.dart';
-import 'package:users/kategori.dart';
-import 'package:users/pinjam.dart';
-import 'package:users/order.dart';
+
 
 void main() {
   runApp(MyApp());

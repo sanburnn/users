@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:users/mixins/helper.dart';
-
+import 'package:users/theme.dart';
 import '../blocs/form_bloc.dart';
 import '../providers/provider.dart';
 
@@ -104,7 +104,7 @@ class SignupScreen extends StatelessWidget {
                 return bloc.register(context);
               },
               child: const Icon(Icons.arrow_forward),
-              color: Colors.amber,
+              color: kBlueColor,
               clipBehavior: Clip.hardEdge,
               elevation: 10,
               disabledColor: Colors.blueGrey,

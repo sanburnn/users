@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:users/controller/homeController.dart';
+
+import 'model/historiModel.dart';
 
 class Histori extends StatefulWidget {
   const Histori({Key key}) : super(key: key);
@@ -8,7 +12,23 @@ class Histori extends StatefulWidget {
 }
 
 class _HistoriState extends State<Histori> {
+  final con = HomeController();
   List<Histori> historyList = [];
+
+  getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    //Return String
+    String idUser;
+    String stringValue = prefs.getString(idUser);
+    return stringValue;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    con.getRiwayat();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +38,43 @@ class _HistoriState extends State<Histori> {
         ),
         body: SafeArea(
             child: Center(
-                child: Container(
-                    child: ListView(
-          children: [list('bulpoint', '2020', 'berhasil')],
-        )))));
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        con.getRiwayat();
+                      },
+                      child: Container(
+                        child: StreamBuilder<HistoriModel>(
+                            stream: con.resHistori.stream,
+                            builder: (_, snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data.data == null) {
+                                  return Center(
+                                    child: Text('Data kosong '),
+                                  );
+                                } else {
+                                  return ListView.builder(
+                                      itemCount: snapshot.data.data.length,
+                                      itemBuilder: (context, index) {
+                                        Datum riwayat =
+                                            snapshot.data.data[index];
+                                        return list(
+                                            riwayat.nama,
+                                            riwayat.jumlah,
+                                            riwayat.statusTransaksi);
+                                      });
+                                }
+                              }
+                              return Center(child: CircularProgressIndicator());
+                            }),
+                      ),
+                    )))));
   }
 
-  Widget list(String judul, String dateTime, String ket) {
+  Widget list(String judul, String jumlah, String ket) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,13 +85,13 @@ class _HistoriState extends State<Histori> {
                 judul,
                 style: TextStyle(fontSize: 25),
               ),
-              Icon(Icons.arrow_forward_ios)
+              Icon(Icons.arrow_forward_ios),
             ],
           ),
-          Text(dateTime),
+          Text('Jumlah Stok $jumlah'),
           SizedBox(height: 15),
-          Text(ket),
-          Divider()
+          Text(ket == "1" ? "Pengajuan di proses" : "Pengajuan di Tolak"),
+          Divider(),
         ],
       ),
     );

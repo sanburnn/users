@@ -12,4 +12,8 @@ class Repostory {
           String idKategori, String nama, String stok, String tanggalKembali) =>
       api.createPinjam(
           context, idUser, idBarang, idKategori, nama, stok, tanggalKembali);
+
+  Future getKategori() => api.getKategori();
+
+  Future getRiwayat() => api.getRiwayat();
 }

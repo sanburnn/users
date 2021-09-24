@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:users/config/palette.dart';
 import 'package:users/config/styles.dart';
+import 'package:users/controller/homeController.dart';
 import 'package:users/data/data.dart';
 
 import 'package:users/screens.dart';
 import 'package:users/widgets/widgets.dart';
+
+import 'model/kategoriModel.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -12,6 +15,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final con = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    con.getKategori();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -27,7 +38,6 @@ class _DashboardState extends State<Dashboard> {
           _buildPreventionTips(screenHeight),
           _textKategori(screenHeight),
           _kategoriTest(screenHeight),
-          _kategoriTest2(screenHeight),
         ],
       ),
     );
@@ -203,95 +213,46 @@ class _DashboardState extends State<Dashboard> {
 
   SliverToBoxAdapter _kategoriTest(double screenHeight) {
     return SliverToBoxAdapter(
-        child: GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Kategori(),
-            ));
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        padding: const EdgeInsets.all(10.0),
-        height: screenHeight * 0.15,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
-          ),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Image.asset('images/elktronik1.png'),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Elektronik',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+        child: Container(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          con.getKategori();
+        },
+        child: StreamBuilder<KategoriModel>(
+            stream: con.resKategori.stream,
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.data == null) {
+                  return Center(
+                    child: Text('Data kosong '),
+                  );
+                } else {
+                  return ListView.builder(
+                      itemCount: snapshot.data.data.length,
+                      itemBuilder: (context, index) {
+                        Datum kategori = snapshot.data.data[index];
+                        return listkat(
+                            kategori.idKategori, kategori.namaKategori);
+                      });
+                }
+              }
+              return Center(child: CircularProgressIndicator());
+            }),
       ),
     ));
   }
 
-  SliverToBoxAdapter _kategoriTest2(double screenHeight) {
-    return SliverToBoxAdapter(
-        child: GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Kategori(),
-            ));
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
+  Widget listkat(String idKategori, String subtitle) {
+    return Container(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Image.asset('images/elktronik1.png'),
+        ListTile(
+          title: Text(idKategori),
+          subtitle: Text(subtitle),
         ),
-        padding: const EdgeInsets.all(10.0),
-        height: screenHeight * 0.15,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
-          ),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Image.asset('images/atk.png'),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Alat Tulis Kerja',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+      ],
     ));
   }
 }

@@ -88,19 +88,6 @@ class _PinjamFormState extends State<PinjamForm> {
               ),
             ),
             Container(
-              child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  controller: namaController,
-                  decoration: InputDecoration(
-                      hintText: "Nama Lengkap",
-                      labelText: "Nama Lengkap",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0))),
-                ),
-              ),
-            ),
-            Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               margin: EdgeInsets.only(bottom: 10),
               child: TextField(

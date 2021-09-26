@@ -5,6 +5,11 @@ import 'package:users/data/data.dart';
 
 import 'package:users/screens.dart';
 import 'package:users/widgets/widgets.dart';
+import 'package:users/bloc/auth_bloc/auth.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:users/style/theme.dart' as Style;
 
 class Dashboard extends StatefulWidget {
   @override
@@ -19,6 +24,18 @@ class _DashboardState extends State<Dashboard> {
       //hapus appBar untuk menhilangkan Appbarnya OKEEEEEE!!!!
       //stres dikit tapi gpp
       // appBar: CustomAppBar(),
+      appBar: AppBar(
+        backgroundColor: Style.Colors.mainColor,
+        actions: [
+          IconButton(
+              icon: Icon(EvaIcons.logOutOutline),
+              onPressed: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(
+                  LoggedOut(),
+                );
+              })
+        ],
+      ),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[

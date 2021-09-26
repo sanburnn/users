@@ -29,7 +29,7 @@ class _IntroPageState extends State<IntroPage> {
       titleWidget: Column(
         children: <Widget>[
           Text(
-            'FREE GIFT',
+            'Peminjaman Barang',
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           SizedBox(
@@ -44,8 +44,7 @@ class _IntroPageState extends State<IntroPage> {
           )
         ],
       ),
-      body:
-          "Free gifts with purchase. Offer free gifts like a gift wrap, gift card, or any free product.",
+      body: "Pinjam barang dengan efisien dan mempermudah",
       image: Center(child: SvgPicture.asset("assets/icons/gift.svg")),
       decoration: const PageDecoration(
           pageColor: Colors.white,
@@ -60,7 +59,7 @@ class _IntroPageState extends State<IntroPage> {
       titleWidget: Column(
         children: <Widget>[
           Text(
-            'PAYMENT INTEGRATION',
+            'Pilih Barang',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18.0,
@@ -79,8 +78,7 @@ class _IntroPageState extends State<IntroPage> {
           )
         ],
       ),
-      body:
-          "A payment gateway as a merchant service that processes credit card payments for ecommerce sites and traditional brick and mortar stores.",
+      body: "pilih barang yang anda inginkan",
       image: Center(
           child: SizedBox(
         width: 450.0,
@@ -99,7 +97,7 @@ class _IntroPageState extends State<IntroPage> {
       titleWidget: Column(
         children: <Widget>[
           Text(
-            'CALL CENTER',
+            'KONFIRMASI',
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           SizedBox(
@@ -114,8 +112,7 @@ class _IntroPageState extends State<IntroPage> {
           )
         ],
       ),
-      body:
-          "Call center gives a small business a big business feel. 24-hour sales, order entry, payment processing, billing inquiries, and more.",
+      body: "Segera Konfirmasi dan ambil barang",
       image: Center(
           child: SizedBox(
         width: 450.0,

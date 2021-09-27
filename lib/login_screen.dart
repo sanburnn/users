@@ -29,19 +29,7 @@ class LoginScreen extends StatelessWidget {
         ),
       );
     }
-
-    String tok = shared.getString('token');
-    if (tok != '') {
-      return null;
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavScreen(),
-        ),
-      );
     }
-  }
 
   @override
   Widget build(BuildContext context) {

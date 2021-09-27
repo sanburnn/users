@@ -42,6 +42,12 @@ class _SignupScreenState extends State<SignupScreen> {
     } else {
       con.register(
           context, nim, nama, alamat, jurusan, noHp, email, role, pass);
+      con.resResgiter.listen((value) {
+        if (value.status == true) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        }
+      });
       nimController.text = '';
       namaController.text = '';
       alamatController.text = '';
@@ -141,6 +147,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           )),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please a Enter';
+                        }
+                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                            .hasMatch(value)) {
+                          return 'Please a valid Email';
+                        }
+                        return null;
+                      },
                     )),
                 Padding(
                     padding:

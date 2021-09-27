@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
 import 'package:users/model/kategoriModel.dart';
+import 'package:users/model/loginModel.dart';
+import 'package:users/model/registerModel.dart';
 
 class Resource {
   var uri = "https://maisyaroh.com/server_sarpras/api";
@@ -39,7 +42,7 @@ class Resource {
   }
 
   Future getBarangId(String idBarang) async {
-    var url = Uri.parse('$uri/barang/get_id/$idBarang');
+    var url = Uri.parse('$uri/barang/get_Id/$idBarang');
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
@@ -64,25 +67,25 @@ class Resource {
     }
   }
 
-  Future createPinjam(
-      BuildContext context,
-      String idUser,
-      String idBarang,
-      String idKategori,
-      String nama,
-      String stok,
-      String tanggalKembali) async {
+  Future createPinjam(BuildContext context, String idUser, idBarang, idKategori,
+      nama, stok, tanggalKembali, token) async {
     var body = jsonEncode({
       'id_user': idUser,
       'id_barang': idBarang,
       'id_kategori': idKategori,
       'stok': stok,
       'tkembali': tanggalKembali,
+      'token': token
     });
     var url = Uri.parse('$uri/pinjam/pinjam');
     try {
       final res = await http
-          .post(url, headers: {'Content-Type': 'application/json'}, body: body)
+          .post(url,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+              },
+              body: body)
           .timeout(const Duration(seconds: 11));
 
       if (res.statusCode == 201) {
@@ -137,11 +140,13 @@ class Resource {
     }
   }
 
-  Future getRiwayat() async {
+  Future getRiwayat(String token) async {
     var url = Uri.parse(uri + '/pinjam/riwayat');
 
     try {
-      final res = await http.get(url).timeout(const Duration(seconds: 11));
+      final res = await http.get(url, headers: {
+        'Authorization': token
+      }).timeout(const Duration(seconds: 11));
       // print(res.body);
       if (res.statusCode == 200) {
         return HistoriModel.fromJson(res.body);
@@ -178,10 +183,10 @@ class Resource {
       'nama_user': namaUser,
       'alamat': alamat,
       'jurusan': jurusan,
-      'No_Hp': noHp,
+      'no_hp': noHp,
       'email': email,
       'role': role,
-      'pass': pass
+      'password': pass
     });
     var url = Uri.parse(uri + '/user/register');
     try {
@@ -193,7 +198,7 @@ class Resource {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Berhasil menambah data!')),
         );
-        return true;
+        return RegisterModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menambah data!')),
@@ -232,7 +237,7 @@ class Resource {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menambah data!')),
         );
-        return false;
+        return LoginModel.fromJson(res.body);
       } else {
         throw Exception('Failur Response');
       }

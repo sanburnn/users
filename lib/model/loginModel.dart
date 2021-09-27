@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final registerModel = registerModelFromMap(jsonString);
+
 import 'dart:convert';
 
 class LoginModel {
@@ -7,8 +11,8 @@ class LoginModel {
     this.message,
   });
 
-  String status;
-  List<Datum> data;
+  bool status;
+  Data data;
   String message;
 
   factory LoginModel.fromJson(String str) =>
@@ -18,29 +22,41 @@ class LoginModel {
 
   factory LoginModel.fromMap(Map<String, dynamic> json) => LoginModel(
         status: json["status"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
+        data: Data.fromMap(json["data"]),
         message: json["message"],
       );
 
   Map<String, dynamic> toMap() => {
         "status": status,
-        "data": List<dynamic>.from(data.map((x) => x.toMap())),
+        "data": data.toMap(),
         "message": message,
       };
 }
 
-class Datum {
-  Datum({this.email, this.password, this.token});
-  String email;
-  String password;
-  String token;
+class Data {
+  Data({
+    this.jwtToken,
+    this.email,
+    this.namaUser,
+  });
 
-  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
+  String jwtToken;
+  String email;
+  String namaUser;
+
+  factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
+
   String toJson() => json.encode(toMap());
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-      email: json["email"], password: json["password"], token: json['token']);
+  factory Data.fromMap(Map<String, dynamic> json) => Data(
+        jwtToken: json["jwt_token"],
+        email: json["email"],
+        namaUser: json["nama_user"],
+      );
 
-  Map<String, dynamic> toMap() =>
-      {"email": email, "password": password, "token": token};
+  Map<String, dynamic> toMap() => {
+        "jwt_token": jwtToken,
+        "email": email,
+        "nama_user": namaUser,
+      };
 }

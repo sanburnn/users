@@ -14,6 +14,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     Dashboard(),
     Kategori(),
     Histori(),
+    Users(),
   ];
   int _currentIndex = 0;
 
@@ -34,7 +35,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         items: [
           Icons.home,
           Icons.credit_card,
-          Icons.supervised_user_circle_outlined
+          Icons.supervised_user_circle_outlined,
+          Icons.logout
         ]
             .asMap()
             .map((key, value) => MapEntry(

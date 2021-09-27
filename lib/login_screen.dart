@@ -7,11 +7,18 @@ import 'package:users/signup_screen.dart';
 
 import 'bottom_nav_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final con = HomeController();
 
   final emailController = TextEditingController();
+
   final passController = TextEditingController();
+
   final tokenController = TextEditingController();
 
   void login(context) async {
@@ -29,7 +36,26 @@ class LoginScreen extends StatelessWidget {
         ),
       );
     }
+  }
+
+  getPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String token = prefs.getString('token');
+    if (token != '' && token != null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BottomNavScreen(),
+          ));
     }
+  }
+
+  @override
+  void initState() {
+    getPref();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +152,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       if (emailController.text == '' &&
                           passController.text == '') {
+                        return "gagal";
                       } else {
                         Navigator.push(
                             context,

@@ -50,10 +50,11 @@ class HomeController {
       String idKategori,
       String nama,
       String stok,
-      String tanggalKembali) async {
+      String tanggalKembali,
+      token) async {
     try {
-      await repostory.createPinjam(
-          context, idUser, idBarang, idKategori, nama, stok, tanggalKembali);
+      await repostory.createPinjam(context, idUser, idBarang, idKategori, nama,
+          stok, tanggalKembali, token);
     } catch (e) {
       print(e.toString());
     }
@@ -68,9 +69,9 @@ class HomeController {
     }
   }
 
-  void getRiwayat() async {
+  void getRiwayat(String token) async {
     try {
-      HistoriModel historiModel = await repostory.getRiwayat();
+      HistoriModel historiModel = await repostory.getRiwayat(token);
       _riwayatFetchar.sink.add(historiModel);
     } catch (e) {
       print(e.toString());

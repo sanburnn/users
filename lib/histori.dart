@@ -18,16 +18,14 @@ class _HistoriState extends State<Histori> {
   getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //Return String
-    String idUser;
-    String stringValue = prefs.getString(idUser);
-    return stringValue;
+    String token = prefs.getString('token');
+    con.getRiwayat(token);
   }
 
   @override
   void initState() {
+    getPref();
     super.initState();
-    con.getRiwayat();
   }
 
   @override
@@ -42,7 +40,7 @@ class _HistoriState extends State<Histori> {
                     padding: const EdgeInsets.all(8.0),
                     child: RefreshIndicator(
                       onRefresh: () async {
-                        con.getRiwayat();
+                        getPref();
                       },
                       child: Container(
                         child: StreamBuilder<HistoriModel>(

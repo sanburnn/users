@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:http/http.dart' as http;
 import 'package:users/histori.dart';
@@ -44,15 +45,16 @@ class _PinjamFormState extends State<PinjamForm> {
   final datePinjamController = TextEditingController();
   final tanggalKembaliController = TextEditingController();
   final dateKembaliController = TextEditingController();
+  final tokenController = TextEditingController();
 
   addPinjam() async {
     String nama = namaController.text;
     String jumlahPinjam = jumlahPinjamController.text;
     String tanggalPinjam = datePinjamController.text;
     String tanggalKembali = dateKembaliController.text;
+    String token = tokenController.text;
 
-    if (nama == '' ||
-        int.parse(jumlahPinjam) >= int.parse(stok) ||
+    if (int.parse(jumlahPinjam) >= int.parse(stok) ||
         jumlahPinjam == '' ||
         tanggalPinjam == '' ||
         tanggalKembali == '') {
@@ -60,7 +62,7 @@ class _PinjamFormState extends State<PinjamForm> {
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
       con.addPinjam(context, nama, widget.idBarang, idKategori, nama,
-          jumlahPinjam, tanggalKembali);
+          jumlahPinjam, tanggalKembali, token);
       namaController.text = '';
       jumlahPinjamController.text = '';
       tanggalPinjamController.text = '';

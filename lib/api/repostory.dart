@@ -8,14 +8,21 @@ class Repostory {
 
   Future getBarangId(String idBarang) => api.getBarangId(idBarang);
 
-  Future createPinjam(BuildContext context, String idUser, String idBarang,
-          String idKategori, String nama, String stok, String tanggalKembali) =>
-      api.createPinjam(
-          context, idUser, idBarang, idKategori, nama, stok, tanggalKembali);
+  Future createPinjam(
+          BuildContext context,
+          String idUser,
+          String idBarang,
+          String idKategori,
+          String nama,
+          String stok,
+          String tanggalKembali,
+          String token) =>
+      api.createPinjam(context, idUser, idBarang, idKategori, nama, stok,
+          tanggalKembali, token);
 
   Future getKategori() => api.getKategori();
 
-  Future getRiwayat() => api.getRiwayat();
+  Future getRiwayat(String token) => api.getRiwayat(token);
 
   Future register(
           BuildContext context,

@@ -3,8 +3,6 @@ import 'package:users/bottom_nav_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:users/style/theme.dart' as Style;
-
 import 'package:flutter/material.dart';
 import 'package:users/bottom_nav_screen.dart';
 import 'package:users/landing.dart';
@@ -16,6 +14,7 @@ void main() {
   runApp(MyApp());
 }
 
+//
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
 

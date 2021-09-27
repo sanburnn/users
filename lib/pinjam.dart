@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:http/http.dart' as http;
+import 'package:users/histori.dart';
+import 'package:users/theme.dart';
 
 class PinjamForm extends StatefulWidget {
   final String idBarang;
@@ -57,7 +59,7 @@ class _PinjamFormState extends State<PinjamForm> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.addPinjam(context, '1', widget.idBarang, idKategori, nama,
+      con.addPinjam(context, nama, widget.idBarang, idKategori, nama,
           jumlahPinjam, tanggalKembali);
       namaController.text = '';
       jumlahPinjamController.text = '';
@@ -76,105 +78,145 @@ class _PinjamFormState extends State<PinjamForm> {
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: Card(
-                child: ListTile(
-                  title: Text(nama),
-                  subtitle: Text(stok),
-                ),
+        child: Column(children: [
+          Container(
+            padding: EdgeInsets.all(8.0),
+            child: Card(
+              child: ListTile(
+                title: Text(nama),
+                subtitle: Text(stok),
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.only(bottom: 10),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextField(
+              controller: tanggalPinjamController,
+              decoration: InputDecoration(
+                  hintText: "Tanggal Pinjam",
+                  labelText: "Tanggal Pinjam",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0))),
+              textAlign: TextAlign.left,
+              onTap: () async {
+                DateTime date = DateTime(1900);
+                FocusScope.of(context).requestFocus(new FocusNode());
+
+                date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 0)),
+                  lastDate: DateTime(2100),
+                );
+
+                String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                tanggalPinjamController.text = formattedDate;
+                DateTime datetime = DateTime.parse(formattedDate);
+                datePinjamController.text = datetime.toString();
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextField(
+              controller: tanggalKembaliController,
+              decoration: InputDecoration(
+                  hintText: "Tanggal Kembali",
+                  labelText: "Tanggal Kembali",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0))),
+              textAlign: TextAlign.left,
+              onTap: () async {
+                DateTime date = DateTime(1900);
+                FocusScope.of(context).requestFocus(new FocusNode());
+
+                date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 0)),
+                  lastDate: DateTime(2100),
+                );
+
+                String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                tanggalKembaliController.text = formattedDate;
+                DateTime datetime = DateTime.parse(formattedDate);
+                dateKembaliController.text = datetime.toString();
+              },
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
               child: TextField(
-                controller: tanggalPinjamController,
+                controller: jumlahPinjamController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                    hintText: "Tanggal Pinjam",
-                    labelText: "Tanggal Pinjam",
+                    hintText: "jumlah Terpinjam",
+                    labelText: "jumlah Barang",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0))),
-                textAlign: TextAlign.left,
-                onTap: () async {
-                  DateTime date = DateTime(1900);
-                  FocusScope.of(context).requestFocus(new FocusNode());
-
-                  date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(Duration(days: 0)),
-                    lastDate: DateTime(2100),
-                  );
-
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                  tanggalPinjamController.text = formattedDate;
-                  DateTime datetime = DateTime.parse(formattedDate);
-                  datePinjamController.text = datetime.toString();
-                },
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.only(bottom: 10),
-              child: TextField(
-                controller: tanggalKembaliController,
-                decoration: InputDecoration(
-                    hintText: "Tanggal Kembali",
-                    labelText: "Tanggal Kembali",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0))),
-                textAlign: TextAlign.left,
-                onTap: () async {
-                  DateTime date = DateTime(1900);
-                  FocusScope.of(context).requestFocus(new FocusNode());
-
-                  date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(Duration(days: 0)),
-                    lastDate: DateTime(2100),
-                  );
-
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                  tanggalKembaliController.text = formattedDate;
-                  DateTime datetime = DateTime.parse(formattedDate);
-                  dateKembaliController.text = datetime.toString();
-                },
-              ),
+          ),
+          Container(
+            child: ElevatedButton(
+              onPressed: () {
+                showGeneralDialog(
+                  barrierLabel: "Label",
+                  barrierDismissible: true,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionDuration: Duration(milliseconds: 700),
+                  context: context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 200,
+                        child: SizedBox.expand(
+                          child: Column(
+                            children: [
+                              Text(
+                                'Status Pengajuan Anda di proses',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Histori()));
+                                  },
+                                  child: Text('Lanjutkan'))
+                            ],
+                          ),
+                        ),
+                        margin:
+                            EdgeInsets.only(bottom: 50, left: 12, right: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    );
+                  },
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return SlideTransition(
+                      position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                          .animate(anim1),
+                      child: child,
+                    );
+                  },
+                );
+              },
+              child: Text('Ajukan'),
             ),
-            Container(
-              child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  controller: jumlahPinjamController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      hintText: "jumlah Terpinjam",
-                      labelText: "jumlah Barang",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0))),
-                ),
-              ),
-            ),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF838C8A)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                    ),
-                  ),
-                  onPressed: () => addPinjam(),
-                  child: Text('simpan'),
-                ))
-          ],
-        ),
+          )
+        ]),
       ),
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:users/bottom_nav_screen.dart';
 import 'package:users/theme.dart';
 
+import 'login_screen.dart';
+
 class Landing extends StatelessWidget {
   const Landing({Key key}) : super(key: key);
 
@@ -46,7 +48,7 @@ class Landing extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return BottomNavScreen();
+                          return LoginScreen();
                         },
                       ));
                     },

@@ -1,29 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:users/bottom_nav_screen.dart';
 import 'package:users/landing.dart';
-import 'package:users/dashboard.dart';
-import 'package:users/kategori.dart';
-import 'package:users/pinjam.dart';
-import 'package:users/order.dart';
+import 'package:users/signup_screen.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: const Color(0xFF65AADF),
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
       home: Landing(),
     );
   }

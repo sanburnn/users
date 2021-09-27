@@ -85,7 +85,6 @@ class _HistoriState extends State<Histori> {
                 judul,
                 style: TextStyle(fontSize: 25),
               ),
-              Icon(Icons.arrow_forward_ios),
             ],
           ),
           Text('Jumlah Stok $jumlah'),

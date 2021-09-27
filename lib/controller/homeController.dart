@@ -5,6 +5,8 @@ import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
 import 'package:users/model/kategoriModel.dart';
+import 'package:users/model/loginModel.dart';
+import 'package:users/model/registerModel.dart';
 
 class HomeController {
   final repostory = Repostory();
@@ -13,11 +15,15 @@ class HomeController {
   final _barangIdFetchar = PublishSubject<BarangIdModel>();
   final _kategoriFetchar = PublishSubject<KategoriModel>();
   final _riwayatFetchar = PublishSubject<HistoriModel>();
+  final _registerFetchar = PublishSubject<RegisterModel>();
+  final _loginFetchar = PublishSubject<LoginModel>();
 
   PublishSubject<BarangModel> get resBarang => _barangFetchar;
   PublishSubject<BarangIdModel> get resIdBarang => _barangIdFetchar;
   PublishSubject<KategoriModel> get resKategori => _kategoriFetchar;
   PublishSubject<HistoriModel> get resHistori => _riwayatFetchar;
+  PublishSubject<RegisterModel> get resResgiter => _registerFetchar;
+  PublishSubject<LoginModel> get reslogin => _loginFetchar;
 
   void getBarang() async {
     try {
@@ -71,10 +77,40 @@ class HomeController {
     }
   }
 
+  void register(
+      BuildContext context,
+      String nim,
+      String namaUser,
+      String alamat,
+      String jurusan,
+      String noHp,
+      String email,
+      String role,
+      String pass) async {
+    try {
+      RegisterModel registerModel = await repostory.register(
+          context, nim, namaUser, alamat, jurusan, noHp, email, role, pass);
+      _registerFetchar.sink.add(registerModel);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void login(BuildContext context, String email, String pass) async {
+    try {
+      LoginModel loginModel = await repostory.login(context, email, pass);
+      _loginFetchar.sink.add(loginModel);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void dipose() {
     _barangFetchar.close();
     _barangIdFetchar.close();
     _kategoriFetchar.close();
     _riwayatFetchar.close();
+    _registerFetchar.close();
+    _loginFetchar.close();
   }
 }

@@ -38,6 +38,7 @@ class _DashboardState extends State<Dashboard> {
           _buildPreventionTips(screenHeight),
           _textKategori(screenHeight),
           _kategoriTest(screenHeight),
+          _kategoriTest2(screenHeight),
         ],
       ),
     );
@@ -213,46 +214,87 @@ class _DashboardState extends State<Dashboard> {
 
   SliverToBoxAdapter _kategoriTest(double screenHeight) {
     return SliverToBoxAdapter(
-        child: Container(
-      child: RefreshIndicator(
-        onRefresh: () async {
-          con.getKategori();
-        },
-        child: StreamBuilder<KategoriModel>(
-            stream: con.resKategori.stream,
-            builder: (_, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.data == null) {
-                  return Center(
-                    child: Text('Data kosong '),
-                  );
-                } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data.data.length,
-                      itemBuilder: (context, index) {
-                        Datum kategori = snapshot.data.data[index];
-                        return listkat(
-                            kategori.idKategori, kategori.namaKategori);
-                      });
-                }
-              }
-              return Center(child: CircularProgressIndicator());
-            }),
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+        padding: const EdgeInsets.all(10.0),
+        height: screenHeight * 0.15,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
+          ),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Image.asset('assets/images/icon1.png'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Elektronik',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 
-  Widget listkat(String idKategori, String subtitle) {
-    return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Image.asset('images/elktronik1.png'),
-        ListTile(
-          title: Text(idKategori),
-          subtitle: Text(subtitle),
+  SliverToBoxAdapter _kategoriTest2(double screenHeight) {
+    return SliverToBoxAdapter(
+        child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Kategori(),
+            ));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
         ),
-      ],
+        padding: const EdgeInsets.all(10.0),
+        height: screenHeight * 0.15,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
+          ),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Image.asset('assets/images/icon1.png'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Ghoib',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     ));
   }
 }

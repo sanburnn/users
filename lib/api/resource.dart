@@ -162,4 +162,90 @@ class Resource {
       throw Exception(e.toString());
     }
   }
+
+  Future register(
+      BuildContext context,
+      String nim,
+      String namaUser,
+      String alamat,
+      String jurusan,
+      String noHp,
+      String email,
+      String role,
+      String pass) async {
+    var body = jsonEncode({
+      'nim': nim,
+      'nama_user': namaUser,
+      'alamat': alamat,
+      'jurusan': jurusan,
+      'No_Hp': noHp,
+      'email': email,
+      'role': role,
+      'pass': pass
+    });
+    var url = Uri.parse(uri + '/user/register');
+    try {
+      final res = await http
+          .post(url, headers: {'Content-Type': 'application/json'}, body: body)
+          .timeout(const Duration(seconds: 11));
+
+      if (res.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Berhasil menambah data!')),
+        );
+        return true;
+      } else if (res.statusCode == 404) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menambah data!')),
+        );
+        return false;
+      } else {
+        throw Exception('Failur Response');
+      }
+    } on SocketException catch (e) {
+      throw Exception(e.toString());
+    } on HttpException {
+      {
+        throw Exception("Tidak Menemukan Post");
+      }
+    } on FormatException {
+      throw Exception('Request Salah');
+    } on TimeoutException catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future login(BuildContext context, String email, String pass) async {
+    var body = jsonEncode({'email': email, 'pass': pass});
+    var url = Uri.parse('$uri/user/login');
+    try {
+      final res = await http
+          .post(url, headers: {'Content-Type': 'application/json'}, body: body)
+          .timeout(const Duration(seconds: 11));
+
+      if (res.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Berhasil menambah data!')),
+        );
+        return true;
+      } else if (res.statusCode == 404) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menambah data!')),
+        );
+        return false;
+      } else {
+        throw Exception('Failur Response');
+      }
+    } on SocketException catch (e) {
+      throw Exception(e.toString());
+    } on HttpException {
+      {
+        throw Exception("Tidak Menemukan Post");
+      }
+    } on FormatException {
+      throw Exception('Request Salah');
+    } on TimeoutException catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

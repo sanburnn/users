@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/login_screen.dart';
-import 'package:users/theme.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController();
   final roleController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isHiddenPassword = true;
 
   regsiter() async {
     String nim = nimController.text;
@@ -27,7 +28,6 @@ class _SignupScreenState extends State<SignupScreen> {
     String jurusan = jurusanController.text;
     String noHp = noHpController.text;
     String email = emailController.text;
-    String role = roleController.text;
     String pass = passwordController.text;
 
     if (nim == '' ||
@@ -82,6 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: nimController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.person),
                           labelText: "Masukkan nim",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -94,6 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: namaController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.person),
                           labelText: "Masukkan nama",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -106,23 +108,30 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: alamatController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.home),
                           labelText: "Masukkan alamat",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           )),
                     )),
                 Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                    child: TextFormField(
-                      controller: jurusanController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          labelText: "Masukkan jurusan",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
-                    )),
+                  padding:
+                      const EdgeInsets.only(bottom: 15, left: 10, right: 10),
+                  child: DropdownSearch<String>.multiSelection(
+                    mode: Mode.MENU,
+                    showClearButton: true,
+                    showSelectedItems: true,
+                    items: [
+                      "Teknik Informatika",
+                      "Teknik Industri",
+                      "Teknik Sipil",
+                      "Teknik Mesin"
+                    ],
+                    label: "Jurusan",
+                    hint: "Pilih Jurusan",
+                    popupItemDisabled: (String s) => s.startsWith('I'),
+                  ),
+                ),
                 Padding(
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 10, right: 10),
@@ -130,6 +139,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: noHpController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.phone),
                           labelText: "Masukkan noHp",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -142,6 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.email),
                           labelText: "Masukkan email",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -161,9 +172,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                     child: TextFormField(
+                      obscureText: isHiddenPassword,
                       controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
+                          suffixIcon: InkWell(
+                              onTap: toggelPassword,
+                              child: Icon(Icons.visibility)),
                           labelText: "Masukkan Passowrd",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -188,5 +203,11 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  void toggelPassword() {
+    setState(() {
+      isHiddenPassword = !isHiddenPassword;
+    });
   }
 }

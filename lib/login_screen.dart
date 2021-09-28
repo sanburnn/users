@@ -21,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final tokenController = TextEditingController();
 
+  bool inHiddenPass = true;
+
   void login() async {
     String email = emailController.text;
     String pass = passController.text;
@@ -109,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
-                    obscureText: true,
+                    obscureText: inHiddenPass,
                     controller: passController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -117,7 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        suffixIcon: Icon(Icons.password)),
+                        suffixIcon: InkWell(
+                            onTap: togglebutton,
+                            child: Icon(Icons.visibility))),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please a Enter Password';
@@ -152,5 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void togglebutton() {
+    setState(() {
+      inHiddenPass = !inHiddenPass;
+    });
   }
 }

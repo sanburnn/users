@@ -40,8 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.register(
-          context, nim, nama, alamat, jurusan, noHp, email, role, pass);
+      con.register(context, nim, nama, alamat, jurusan, noHp, email, pass);
       con.resResgiter.listen((value) {
         if (value.status == true) {
           Navigator.pushReplacement(

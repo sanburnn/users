@@ -75,7 +75,6 @@ class Resource {
       'id_kategori': idKategori,
       'stok': stok,
       'tkembali': tanggalKembali,
-      'token': token
     });
     var url = Uri.parse('$uri/pinjam/pinjam');
     try {
@@ -90,7 +89,7 @@ class Resource {
 
       if (res.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil menambah data!')),
+          SnackBar(content: Text('Berhasil mengajukan')),
         );
         return true;
       } else if (res.statusCode == 404) {
@@ -147,7 +146,7 @@ class Resource {
       final res = await http.get(url, headers: {
         'Authorization': token
       }).timeout(const Duration(seconds: 11));
-      // print(res.body);
+
       if (res.statusCode == 200) {
         return HistoriModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
@@ -176,7 +175,6 @@ class Resource {
       String jurusan,
       String noHp,
       String email,
-      String role,
       String pass) async {
     var body = jsonEncode({
       'nim': nim,
@@ -185,7 +183,6 @@ class Resource {
       'jurusan': jurusan,
       'no_hp': noHp,
       'email': email,
-      'role': role,
       'password': pass
     });
     var url = Uri.parse(uri + '/user/register');
@@ -196,7 +193,7 @@ class Resource {
 
       if (res.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil menambah data!')),
+          SnackBar(content: Text('Anda Berhasil Register')),
         );
         return RegisterModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
@@ -221,21 +218,21 @@ class Resource {
   }
 
   Future login(BuildContext context, String email, String pass) async {
-    var body = jsonEncode({'email': email, 'pass': pass});
+    var body = jsonEncode({'email': email, 'password': pass});
     var url = Uri.parse('$uri/user/login');
     try {
       final res = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: body)
           .timeout(const Duration(seconds: 11));
 
-      if (res.statusCode == 201) {
+      if (res.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil menambah data!')),
+          SnackBar(content: Text('Anda Berhasil Login!')),
         );
-        return true;
+        return LoginModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal menambah data!')),
+          SnackBar(content: Text('Gagal')),
         );
         return LoginModel.fromJson(res.body);
       } else {

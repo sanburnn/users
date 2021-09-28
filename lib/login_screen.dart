@@ -21,27 +21,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final tokenController = TextEditingController();
 
-  void login(context) async {
+  void login() async {
     String email = emailController.text;
     String pass = passController.text;
-    String token = tokenController.text;
 
     SharedPreferences shared = await SharedPreferences.getInstance();
-    if (email == '' && pass == '') {
-      await shared.setString('token', token);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavScreen(),
-        ),
+    if (emailController.text != '' && passController.text != '') {
+      con.login(context, email, pass);
+      con.reslogin.listen((value) async {
+        if (value.status) {
+          await shared.setString('token', value.data.jwtToken);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavScreen(),
+            ),
+          );
+        }
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Form Harus Di isi')),
       );
     }
   }
 
-  getPref() async {
+  void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String token = prefs.getString('token');
+
     if (token != '' && token != null) {
       Navigator.pushReplacement(
           context,
@@ -53,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    getPref();
     super.initState();
+    getPref();
   }
 
   @override
@@ -77,12 +85,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         labelText: "Masukkan Email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                        )),
+                        ),
+                        suffixIcon: Icon(Icons.email)),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please a Enter';
@@ -99,13 +109,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
+                    obscureText: true,
                     controller: passController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         labelText: "Masukkan Password",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                        )),
+                        ),
+                        suffixIcon: Icon(Icons.password)),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please a Enter Password';
@@ -114,56 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: TextFormField(
-                    controller: passController,
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        labelText: "confirm Password",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please re-enter password';
-                      }
-                      var password;
-                      print(password.text);
-
-                      var confirmpassword;
-                      print(confirmpassword.text);
-
-                      if (password.text != confirmpassword.text) {
-                        return "Password does not match";
-                      }
-
-                      return null;
-                    },
-                  ),
-                ),
                 SizedBox(
                   width: 200,
                   height: 50,
-                  child: RaisedButton(
-                    color: Colors.redAccent,
-                    onPressed: () {
-                      if (emailController.text == '' &&
-                          passController.text == '') {
-                        return "gagal";
-                      } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavScreen()));
-                      }
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                        side: BorderSide(color: Colors.blue, width: 2)),
-                    textColor: Colors.white,
+                  child: ElevatedButton(
+                    onPressed: () => login(),
                     child: Text("Submit"),
                   ),
                 ),

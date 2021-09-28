@@ -52,8 +52,9 @@ class _PinjamFormState extends State<PinjamForm> {
     String jumlahPinjam = jumlahPinjamController.text;
     String tanggalPinjam = datePinjamController.text;
     String tanggalKembali = dateKembaliController.text;
-    String token = tokenController.text;
 
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String token = pref.getString('token');
     if (int.parse(jumlahPinjam) >= int.parse(stok) ||
         jumlahPinjam == '' ||
         tanggalPinjam == '' ||
@@ -163,61 +164,10 @@ class _PinjamFormState extends State<PinjamForm> {
             ),
           ),
           Container(
-            child: ElevatedButton(
-              onPressed: () {
-                showGeneralDialog(
-                  barrierLabel: "Label",
-                  barrierDismissible: true,
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  transitionDuration: Duration(milliseconds: 700),
-                  context: context,
-                  pageBuilder: (context, anim1, anim2) {
-                    return Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 200,
-                        child: SizedBox.expand(
-                          child: Column(
-                            children: [
-                              Text(
-                                'Status Pengajuan Anda di proses',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Histori()));
-                                  },
-                                  child: Text('Lanjutkan'))
-                            ],
-                          ),
-                        ),
-                        margin:
-                            EdgeInsets.only(bottom: 50, left: 12, right: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                      ),
-                    );
-                  },
-                  transitionBuilder: (context, anim1, anim2, child) {
-                    return SlideTransition(
-                      position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                          .animate(anim1),
-                      child: child,
-                    );
-                  },
-                );
-              },
-              child: Text('Ajukan'),
-            ),
-          )
+              child: ElevatedButton(
+            onPressed: () => addPinjam(),
+            child: Text('Ajukan'),
+          ))
         ]),
       ),
     );

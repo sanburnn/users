@@ -33,6 +33,7 @@ class _HistoriState extends State<Histori> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Riwayat Peminjaman'),
+          leading: Container(),
         ),
         body: SafeArea(
             child: Center(
@@ -85,9 +86,9 @@ class _HistoriState extends State<Histori> {
               ),
             ],
           ),
-          Text('Jumlah Stok $jumlah'),
+          Text('Jumlah yang di pinjam : $jumlah'),
           SizedBox(height: 15),
-          Text(ket == "1" ? "Pengajuan di proses" : "Pengajuan di Tolak"),
+          Text(ket),
           Divider(),
         ],
       ),

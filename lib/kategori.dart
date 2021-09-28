@@ -25,6 +25,7 @@ class _KategoriState extends State<Kategori> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Daftar Barang'),
+        leading: Container(),
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0),

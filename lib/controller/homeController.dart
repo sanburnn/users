@@ -86,11 +86,10 @@ class HomeController {
       String jurusan,
       String noHp,
       String email,
-      String role,
       String pass) async {
     try {
       RegisterModel registerModel = await repostory.register(
-          context, nim, namaUser, alamat, jurusan, noHp, email, role, pass);
+          context, nim, namaUser, alamat, jurusan, noHp, email, pass);
       _registerFetchar.sink.add(registerModel);
     } catch (e) {
       print(e.toString());

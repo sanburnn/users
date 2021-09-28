@@ -45,7 +45,7 @@ class Data {
 
   String email;
   String namaUser;
-  int nim;
+  String nim;
   String jurusan;
   String noHp;
   String role;

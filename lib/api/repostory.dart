@@ -32,10 +32,8 @@ class Repostory {
           String jurusan,
           String noHp,
           String email,
-          String role,
           String pass) =>
-      api.register(
-          context, nim, namaUser, alamat, jurusan, noHp, email, role, pass);
+      api.register(context, nim, namaUser, alamat, jurusan, noHp, email, pass);
 
   Future login(BuildContext context, String email, String pass) =>
       api.login(context, email, pass);

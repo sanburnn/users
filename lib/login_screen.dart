@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
+import 'package:users/dashboard.dart';
 import 'package:users/signup_screen.dart';
 
 import 'bottom_nav_screen.dart';
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final tokenController = TextEditingController();
 
   bool inHiddenPass = true;
-
+  bool _isHidden = true;
   void login() async {
     String email = emailController.text;
     String pass = passController.text;
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
-                    obscureText: inHiddenPass,
+                    obscureText: _isHidden,
                     controller: passController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -120,7 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         suffixIcon: InkWell(
                             onTap: togglebutton,
-                            child: Icon(Icons.visibility))),
+                            child: Icon(_isHidden 
+                        ? Icons.visibility 
+                        : Icons.visibility_off,))),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please a Enter Password';
@@ -130,19 +133,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: 300,
+                  width: 200,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () => login(),
-                    child: Text("Log In"),
+                    child: Text("Submit"),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
-                    width: 300,
-                    height: 50,
                     child: ElevatedButton(
                         child: Text('Sign Up'),
                         onPressed: () {
@@ -150,10 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SignupScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.yellow,
-                        )))
+                        }))
               ],
             ),
           ),
@@ -164,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void togglebutton() {
     setState(() {
-      inHiddenPass = !inHiddenPass;
+      _isHidden = !_isHidden;
     });
   }
 }

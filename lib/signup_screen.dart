@@ -20,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final roleController = TextEditingController();
   final passwordController = TextEditingController();
   bool isHiddenPassword = true;
+  bool _isHidden = true;
   List<String> data = [
     "Teknik Informatika",
     "Teknik Industri",
@@ -173,13 +174,15 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                     child: TextFormField(
-                      obscureText: isHiddenPassword,
+                      obscureText:  _isHidden,
                       controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                           suffixIcon: InkWell(
                               onTap: toggelPassword,
-                              child: Icon(Icons.visibility)),
+                              child: Icon(_isHidden 
+                        ? Icons.visibility 
+                        : Icons.visibility_off,)),
                           labelText: "Masukkan Passowrd",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -203,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void toggelPassword() {
     setState(() {
-      isHiddenPassword = !isHiddenPassword;
+      _isHidden = !_isHidden;
     });
   }
 }

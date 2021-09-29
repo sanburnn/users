@@ -186,16 +186,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           )),
                     )),
                 SizedBox(
-                  width: 200,
+                  width: 300,
                   height: 50,
-                  child: RaisedButton(
-                    color: Colors.redAccent,
+                  child: ElevatedButton(
                     onPressed: () => regsiter(),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                        side: BorderSide(color: Colors.blue, width: 2)),
-                    textColor: Colors.white,
-                    child: Text("Submit"),
+                    child: Text("Register"),
                   ),
                 )
               ],

@@ -130,17 +130,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: 200,
+                  width: 300,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () => login(),
-                    child: Text("Submit"),
+                    child: Text("Log In"),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
+                    width: 300,
+                    height: 50,
                     child: ElevatedButton(
                         child: Text('Sign Up'),
                         onPressed: () {
@@ -148,7 +150,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SignupScreen()));
-                        }))
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.yellow,
+                        )))
               ],
             ),
           ),

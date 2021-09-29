@@ -20,6 +20,12 @@ class _SignupScreenState extends State<SignupScreen> {
   final roleController = TextEditingController();
   final passwordController = TextEditingController();
   bool isHiddenPassword = true;
+  List<String> data = [
+    "Teknik Informatika",
+    "Teknik Industri",
+    "Teknik Sipil",
+    "Teknik Mesin"
+  ];
 
   regsiter() async {
     String nim = nimController.text;
@@ -117,16 +123,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: DropdownSearch<String>.multiSelection(
+                  child: DropdownSearch<String>(
                     mode: Mode.MENU,
                     showClearButton: true,
                     showSelectedItems: true,
-                    items: [
-                      "Teknik Informatika",
-                      "Teknik Industri",
-                      "Teknik Sipil",
-                      "Teknik Mesin"
-                    ],
+                    items: data,
                     label: "Jurusan",
                     hint: "Pilih Jurusan",
                     popupItemDisabled: (String s) => s.startsWith('I'),

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
-import 'package:users/dashboard.dart';
 import 'package:users/signup_screen.dart';
 
 import 'bottom_nav_screen.dart';

@@ -88,7 +88,7 @@ class _HistoriState extends State<Histori> {
           ),
           Text('Jumlah yang di pinjam : $jumlah'),
           SizedBox(height: 15),
-          Text(ket),
+          Text('Status Peminjaman : $ket'),
           Divider(),
         ],
       ),

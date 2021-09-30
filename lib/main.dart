@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:users/intro_screen.dart';
 import 'package:users/landing.dart';
 import 'package:users/signup_screen.dart';
 
@@ -8,7 +9,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Landing(),
+      home: IntroPage(),
     );
   }
 }

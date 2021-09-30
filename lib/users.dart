@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/config/palette.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/landing.dart';
-import 'package:users/login_screen.dart';
+import 'package:users/intro_screen.dart';
 
 class Users extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class UsersState extends State<Users> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Landing(),
+          builder: (context) => IntroPage(),
         ));
   }
 

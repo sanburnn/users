@@ -129,14 +129,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: DropdownSearch(
-                      mode: Mode.MENU,
-                      hint: "pilih jurusan",
-                      items: jurusanController,
-                      onChanged: (newValue) {
-                        setState(() {
-                          jurusan = newValue;
-                        });
+                  child: StreamBuilder<Object>(
+                      stream: con.resJurusan.stream,
+                      builder: (context, snapshot) {
+                        return DropdownSearch(
+                            mode: Mode.MENU,
+                            hint: "pilih jurusan",
+                            items: jurusanController,
+                            onChanged: (newValue) {
+                              setState(() {
+                                jurusan = newValue;
+                              });
+                            });
                       }),
                 ),
                 Padding(

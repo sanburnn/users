@@ -45,6 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
       con.register(context, nim, nama, alamat, jurusan, noHp, email, pass);
+      con.getJurusan();
       con.resResgiter.listen((value) {
         if (value.status == true) {
           Navigator.pushReplacement(
@@ -67,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
-    con.resJurusan;
+    con.getJurusan();
   }
 
   @override
@@ -131,10 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: DropdownSearch(
                       mode: Mode.MENU,
                       hint: "pilih jurusan",
-                      items: jurusanController.map((jurusan) {
-                        return DropdownMenuItem<String>(
-                            child: Text(jurusan), value: jurusan);
-                      }).toList(),
+                      items: jurusanController,
                       onChanged: (newValue) {
                         setState(() {
                           jurusan = newValue;

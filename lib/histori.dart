@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
+import 'package:users/theme.dart';
 
 import 'model/historiModel.dart';
 
@@ -88,7 +89,14 @@ class _HistoriState extends State<Histori> {
           ),
           Text('Jumlah yang di pinjam : $jumlah'),
           SizedBox(height: 15),
-          Text(ket),
+          Text(
+            // ignore: unrelated_type_equality_checks
+            ket == 0 ? "Pengajuan Masih diProses" : "peminjaman berhasil",
+            style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 15,
+                fontStyle: FontStyle.italic),
+          ),
           Divider(),
         ],
       ),

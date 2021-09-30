@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
+import 'package:users/model/jurusanModel.dart';
 import 'package:users/model/kategoriModel.dart';
 import 'package:users/model/loginModel.dart';
 import 'package:users/model/registerModel.dart';
@@ -172,7 +173,7 @@ class Resource {
       String nim,
       String namaUser,
       String alamat,
-      String jurusan,
+      int jurusan,
       String noHp,
       String email,
       String pass) async {
@@ -190,7 +191,7 @@ class Resource {
       final res = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: body)
           .timeout(const Duration(seconds: 11));
-
+      print(res.body);
       if (res.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Anda Berhasil Register')),
@@ -220,11 +221,12 @@ class Resource {
   Future login(BuildContext context, String email, String pass) async {
     var body = jsonEncode({'email': email, 'password': pass});
     var url = Uri.parse('$uri/user/login');
+
     try {
       final res = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: body)
           .timeout(const Duration(seconds: 11));
-
+      print(res.body);
       if (res.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Anda Berhasil Login!')),
@@ -235,6 +237,32 @@ class Resource {
           SnackBar(content: Text('Gagal')),
         );
         return LoginModel.fromJson(res.body);
+      } else {
+        throw Exception('Failur Response');
+      }
+    } on SocketException catch (e) {
+      throw Exception(e.toString());
+    } on HttpException {
+      {
+        throw Exception("Tidak Menemukan Post");
+      }
+    } on FormatException {
+      throw Exception('Request Salah');
+    } on TimeoutException catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future getJurusan() async {
+    var url = Uri.parse(uri + '/user/jurusan');
+
+    try {
+      final res = await http.get(url).timeout(const Duration(seconds: 11));
+
+      if (res.statusCode == 200) {
+        return JurusanModel.fromJson(res.body);
+      } else if (res.statusCode == 404) {
+        return JurusanModel.fromJson(res.body);
       } else {
         throw Exception('Failur Response');
       }

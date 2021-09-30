@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/login_screen.dart';
@@ -14,33 +16,28 @@ class _SignupScreenState extends State<SignupScreen> {
   final nimController = TextEditingController();
   final namaController = TextEditingController();
   final alamatController = TextEditingController();
-  final jurusanController = TextEditingController();
   final noHpController = TextEditingController();
   final emailController = TextEditingController();
   final roleController = TextEditingController();
   final passwordController = TextEditingController();
   bool isHiddenPassword = true;
   bool _isHidden = true;
-  List<String> data = [
-    "Teknik Informatika",
-    "Teknik Industri",
-    "Teknik Sipil",
-    "Teknik Mesin"
-  ];
+  List<String> jurusanController = [];
+  String jurusan;
 
-  regsiter() async {
+  Future regsiter() async {
     String nim = nimController.text;
     String nama = namaController.text;
     String alamat = alamatController.text;
-    String jurusan = jurusanController.text;
     String noHp = noHpController.text;
     String email = emailController.text;
     String pass = passwordController.text;
+    int jurusan = jurusanController.length;
 
     if (nim == '' ||
         nama == '' ||
         alamat == '' ||
-        jurusan == '' ||
+        jurusan == null ||
         noHp == '' ||
         email == '' ||
         pass == '') {
@@ -54,16 +51,23 @@ class _SignupScreenState extends State<SignupScreen> {
               context, MaterialPageRoute(builder: (context) => LoginScreen()));
         }
       });
-      nimController.text = '';
-      namaController.text = '';
-      alamatController.text = '';
-      jurusanController.text = '';
-      noHpController.text = '';
-      emailController.text = '';
-      roleController.text = '';
-      passwordController.text = '';
-      setState(() {});
+      // nimController.text = '';
+      // namaController.text = '';
+      // alamatController.text = '';
+      // noHpController.text = '';
+      // emailController.text = '';
+      // roleController.text = '';
+      // passwordController.text = '';
+      setState(() {
+        jurusanController = [];
+      });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    con.resJurusan;
   }
 
   @override
@@ -124,15 +128,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: DropdownSearch<String>(
-                    mode: Mode.MENU,
-                    showClearButton: true,
-                    showSelectedItems: true,
-                    items: data,
-                    label: "Jurusan",
-                    hint: "Pilih Jurusan",
-                    popupItemDisabled: (String s) => s.startsWith('I'),
-                  ),
+                  child: DropdownSearch(
+                      mode: Mode.MENU,
+                      hint: "pilih jurusan",
+                      items: jurusanController.map((jurusan) {
+                        return DropdownMenuItem<String>(
+                            child: Text(jurusan), value: jurusan);
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          jurusan = newValue;
+                        });
+                      }),
                 ),
                 Padding(
                     padding:
@@ -174,15 +181,17 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                     child: TextFormField(
-                      obscureText:  _isHidden,
+                      obscureText: _isHidden,
                       controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                           suffixIcon: InkWell(
                               onTap: toggelPassword,
-                              child: Icon(_isHidden 
-                        ? Icons.visibility 
-                        : Icons.visibility_off,)),
+                              child: Icon(
+                                _isHidden
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              )),
                           labelText: "Masukkan Passowrd",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),

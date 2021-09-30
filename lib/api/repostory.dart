@@ -24,17 +24,12 @@ class Repostory {
 
   Future getRiwayat(String token) => api.getRiwayat(token);
 
-  Future register(
-          BuildContext context,
-          String nim,
-          String namaUser,
-          String alamat,
-          String jurusan,
-          String noHp,
-          String email,
-          String pass) =>
+  Future register(BuildContext context, String nim, String namaUser,
+          String alamat, int jurusan, String noHp, String email, String pass) =>
       api.register(context, nim, namaUser, alamat, jurusan, noHp, email, pass);
 
   Future login(BuildContext context, String email, String pass) =>
       api.login(context, email, pass);
+
+  Future getJurusan() => api.getJurusan();
 }

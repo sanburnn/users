@@ -38,17 +38,15 @@ class Data {
     this.email,
     this.namaUser,
     this.nim,
-    this.jurusan,
+    this.idJurusan,
     this.noHp,
-    this.role,
   });
 
   String email;
   String namaUser;
   String nim;
-  String jurusan;
+  int idJurusan;
   String noHp;
-  String role;
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
 
@@ -58,17 +56,15 @@ class Data {
         email: json["email"],
         namaUser: json["nama_user"],
         nim: json["nim"],
-        jurusan: json["jurusan"],
+        idJurusan: json["id_jurusan"],
         noHp: json["no_hp"],
-        role: json["role"],
       );
 
   Map<String, dynamic> toMap() => {
         "email": email,
         "nama_user": namaUser,
         "nim": nim,
-        "jurusan": jurusan,
+        "id_jurusan": idJurusan,
         "no_hp": noHp,
-        "role": role,
       };
 }

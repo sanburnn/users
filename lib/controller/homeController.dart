@@ -4,6 +4,7 @@ import 'package:users/api/repostory.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
+import 'package:users/model/jurusanModel.dart';
 import 'package:users/model/kategoriModel.dart';
 import 'package:users/model/loginModel.dart';
 import 'package:users/model/registerModel.dart';
@@ -17,6 +18,7 @@ class HomeController {
   final _riwayatFetchar = PublishSubject<HistoriModel>();
   final _registerFetchar = PublishSubject<RegisterModel>();
   final _loginFetchar = PublishSubject<LoginModel>();
+  final _jurusanFetchar = PublishSubject<JurusanModel>();
 
   PublishSubject<BarangModel> get resBarang => _barangFetchar;
   PublishSubject<BarangIdModel> get resIdBarang => _barangIdFetchar;
@@ -24,6 +26,7 @@ class HomeController {
   PublishSubject<HistoriModel> get resHistori => _riwayatFetchar;
   PublishSubject<RegisterModel> get resResgiter => _registerFetchar;
   PublishSubject<LoginModel> get reslogin => _loginFetchar;
+  PublishSubject<JurusanModel> get resJurusan => _jurusanFetchar;
 
   void getBarang() async {
     try {
@@ -83,7 +86,7 @@ class HomeController {
       String nim,
       String namaUser,
       String alamat,
-      String jurusan,
+      int jurusan,
       String noHp,
       String email,
       String pass) async {
@@ -105,6 +108,15 @@ class HomeController {
     }
   }
 
+  void getJurusan() async {
+    try {
+      JurusanModel jurusanModel = await repostory.getJurusan();
+      _jurusanFetchar.sink.add(jurusanModel);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void dipose() {
     _barangFetchar.close();
     _barangIdFetchar.close();
@@ -112,5 +124,6 @@ class HomeController {
     _riwayatFetchar.close();
     _registerFetchar.close();
     _loginFetchar.close();
+    _jurusanFetchar.close();
   }
 }

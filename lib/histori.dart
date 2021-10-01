@@ -90,12 +90,8 @@ class _HistoriState extends State<Histori> {
           Text('Jumlah yang di pinjam : $jumlah'),
           SizedBox(height: 15),
           Text(
-            // ignore: unrelated_type_equality_checks
-            ket == 0 ? "Pengajuan Masih diProses" : "peminjaman berhasil",
-            style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-                fontStyle: FontStyle.italic),
+            ket == '0' ? 'Pengajuan Masih di proses' : 'Peminjaman berhasil',
+            style: TextStyle(fontStyle: FontStyle.italic),
           ),
           Divider(),
         ],

@@ -86,7 +86,7 @@ class HomeController {
       String nim,
       String namaUser,
       String alamat,
-      int jurusan,
+      String jurusan,
       String noHp,
       String email,
       String pass) async {

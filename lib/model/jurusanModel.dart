@@ -18,6 +18,8 @@ class JurusanModel {
   factory JurusanModel.fromJson(String str) =>
       JurusanModel.fromMap(json.decode(str));
 
+  get result => null;
+
   String toJson() => json.encode(toMap());
 
   factory JurusanModel.fromMap(Map<String, dynamic> json) => JurusanModel(

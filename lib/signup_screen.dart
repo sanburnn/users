@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/login_screen.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:users/model/jurusanModel.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -22,8 +21,9 @@ class _SignupScreenState extends State<SignupScreen> {
   final passwordController = TextEditingController();
   bool isHiddenPassword = true;
   bool _isHidden = true;
-  List<String> jurusanController = [];
-  String jurusan;
+  int jurusan;
+  String selectedJurusan;
+  List<String> jurusanController = ['Teknik Informatika', 'Teknik Mesin'];
 
   Future regsiter() async {
     String nim = nimController.text;
@@ -32,20 +32,19 @@ class _SignupScreenState extends State<SignupScreen> {
     String noHp = noHpController.text;
     String email = emailController.text;
     String pass = passwordController.text;
-    int jurusan = jurusanController.length;
 
     if (nim == '' ||
         nama == '' ||
         alamat == '' ||
-        jurusan == null ||
+        selectedJurusan == null ||
         noHp == '' ||
         email == '' ||
         pass == '') {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.register(context, nim, nama, alamat, jurusan, noHp, email, pass);
-      con.getJurusan();
+      con.register(
+          context, nim, nama, alamat, selectedJurusan, noHp, email, pass);
       con.resResgiter.listen((value) {
         if (value.status == true) {
           Navigator.pushReplacement(
@@ -59,9 +58,7 @@ class _SignupScreenState extends State<SignupScreen> {
       // emailController.text = '';
       // roleController.text = '';
       // passwordController.text = '';
-      setState(() {
-        jurusanController = [];
-      });
+      setState(() {});
     }
   }
 
@@ -129,19 +126,48 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: StreamBuilder<Object>(
-                      stream: con.resJurusan.stream,
-                      builder: (context, snapshot) {
-                        return DropdownSearch(
-                            mode: Mode.MENU,
-                            hint: "pilih jurusan",
-                            items: jurusanController,
-                            onChanged: (newValue) {
-                              setState(() {
-                                jurusan = newValue;
-                              });
-                            });
-                      }),
+                  child: Container(
+                    width: 300,
+                    child: StreamBuilder(
+                        stream: con.resJurusan,
+                        builder:
+                            (context, AsyncSnapshot<JurusanModel> snapshot) {
+                          if (snapshot.hasData) {
+                            return new DropdownButton<Datum>(
+                              isExpanded: true,
+                              items: snapshot.data.data.map((Datum value) {
+                                return new DropdownMenuItem<Datum>(
+                                  value: value,
+                                  child: Container(
+                                      width: 130.0,
+                                      child: new Text(
+                                        value.namaJurusan,
+                                        style: TextStyle(fontSize: 14.0),
+                                      )),
+                                );
+                              }).toList(),
+                              value: jurusan == null
+                                  ? null
+                                  : snapshot.data.data[jurusan],
+                              hint: Text(
+                                "pilih Jurusan",
+                                style: TextStyle(fontSize: 14.0),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                  jurusan = snapshot.data.data.indexOf(value);
+                                  selectedJurusan = value.idJurusan;
+                                });
+                              },
+                            );
+                          }
+                          return Container(
+                            child: Text("loading.."),
+                          );
+                        }),
+                  ),
                 ),
                 Padding(
                     padding:

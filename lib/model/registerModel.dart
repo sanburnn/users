@@ -45,7 +45,7 @@ class Data {
   String email;
   String namaUser;
   String nim;
-  int idJurusan;
+  String idJurusan;
   String noHp;
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));

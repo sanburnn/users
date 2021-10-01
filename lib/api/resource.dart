@@ -173,7 +173,7 @@ class Resource {
       String nim,
       String namaUser,
       String alamat,
-      int jurusan,
+      String jurusan,
       String noHp,
       String email,
       String pass) async {
@@ -181,7 +181,7 @@ class Resource {
       'nim': nim,
       'nama_user': namaUser,
       'alamat': alamat,
-      'jurusan': jurusan,
+      'id_jurusan': jurusan,
       'no_hp': noHp,
       'email': email,
       'password': pass
@@ -258,7 +258,7 @@ class Resource {
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
-
+      print(res.body);
       if (res.statusCode == 200) {
         return JurusanModel.fromJson(res.body);
       } else if (res.statusCode == 404) {

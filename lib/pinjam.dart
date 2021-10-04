@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
@@ -112,11 +113,22 @@ class _PinjamFormState extends State<PinjamForm> {
                   firstDate: DateTime.now().subtract(Duration(days: 0)),
                   lastDate: DateTime(2100),
                 );
-
-                String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                tanggalPinjamController.text = formattedDate;
-                DateTime datetime = DateTime.parse(formattedDate);
-                datePinjamController.text = datetime.toString();
+                if (date != null) {
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                  tanggalPinjamController.text = formattedDate;
+                  DateTime datetime = DateTime.parse(formattedDate);
+                  datePinjamController.text = datetime.toString();
+                }
+                if (date == null) {
+                  Fluttertoast.showToast(
+                      msg: "Tangga Masih Kosong",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.white,
+                      fontSize: 15.0);
+                }
               },
             ),
           ),
@@ -141,11 +153,22 @@ class _PinjamFormState extends State<PinjamForm> {
                   firstDate: DateTime.now().subtract(Duration(days: 0)),
                   lastDate: DateTime(2100),
                 );
-
-                String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                tanggalKembaliController.text = formattedDate;
-                DateTime datetime = DateTime.parse(formattedDate);
-                dateKembaliController.text = datetime.toString();
+                if (date != null) {
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                  tanggalKembaliController.text = formattedDate;
+                  DateTime datetime = DateTime.parse(formattedDate);
+                  dateKembaliController.text = datetime.toString();
+                }
+                if (date == null) {
+                  Fluttertoast.showToast(
+                      msg: "Tangga Masih Kosong",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.white,
+                      fontSize: 15.0);
+                }
               },
             ),
           ),

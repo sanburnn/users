@@ -38,6 +38,7 @@ dependencies:
   dropdown_search: ^1.0.0
   introduction_screen: ^1.0.9
   flutter_svg: ^0.20.0-nullsafety.3
+  fluttertoast: ^8.0.8
   
 dev_dependencies:
   flutter_test:

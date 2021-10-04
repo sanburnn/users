@@ -258,7 +258,6 @@ class Resource {
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
-      print(res.body);
       if (res.statusCode == 200) {
         return JurusanModel.fromJson(res.body);
       } else if (res.statusCode == 404) {

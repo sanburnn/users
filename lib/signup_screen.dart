@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/login_screen.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -127,13 +128,17 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: Container(
-                    width: 300,
+                    width: 330,
                     child: StreamBuilder(
                         stream: con.resJurusan,
                         builder:
                             (context, AsyncSnapshot<JurusanModel> snapshot) {
                           if (snapshot.hasData) {
-                            return new DropdownButton<Datum>(
+                            return new DropdownButtonFormField<Datum>(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
                               isExpanded: true,
                               items: snapshot.data.data.map((Datum value) {
                                 return new DropdownMenuItem<Datum>(
@@ -151,7 +156,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   : snapshot.data.data[jurusan],
                               hint: Text(
                                 "pilih Jurusan",
-                                style: TextStyle(fontSize: 14.0),
+                                style: TextStyle(fontSize: 15.0),
                               ),
                               onChanged: (value) {
                                 setState(() {

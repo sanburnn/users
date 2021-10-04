@@ -91,7 +91,8 @@ class _HistoriState extends State<Histori> {
           SizedBox(height: 15),
           Text(
             ket == '0' ? 'Pengajuan Masih di proses' : 'Peminjaman berhasil',
-            style: TextStyle(fontStyle: FontStyle.italic),
+            style: TextStyle(
+                fontStyle: FontStyle.italic, color: Colors.green[800]),
           ),
           Divider(),
         ],

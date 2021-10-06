@@ -5,6 +5,7 @@ import 'package:users/controller/homeController.dart';
 import 'package:users/data/data.dart';
 
 import 'package:users/screens.dart';
+import 'package:users/theme.dart';
 import 'package:users/widgets/widgets.dart';
 
 import 'model/kategoriModel.dart';
@@ -36,6 +37,7 @@ class _DashboardState extends State<Dashboard> {
           _buildHeader(screenHeight),
           _buildYourOwnTest(screenHeight),
           _buildPreventionTips(screenHeight),
+          _kategori(screenHeight)
         ],
       ),
     );
@@ -187,4 +189,27 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+SliverToBoxAdapter _kategori(double screenHeight) {
+  return SliverToBoxAdapter(
+      child: Column(children: [
+    Text(
+      'Kategori Barang ',
+      style: TextStyle(fontSize: 20, fontWeight: semiBold),
+    ),
+    Center(
+      child: Row(
+        children: [
+          Container(
+            width: 180,
+            height: 170,
+            decoration: BoxDecoration(
+              color: Colors.blue[300],
+            ),
+          )
+        ],
+      ),
+    )
+  ]));
 }

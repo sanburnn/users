@@ -119,7 +119,7 @@ class Resource {
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
-      // print(res.body);
+      // print(res.statusCode);
       if (res.statusCode == 200) {
         return KategoriModel.fromJson(res.body);
       } else if (res.statusCode == 404) {

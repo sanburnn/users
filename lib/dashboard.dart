@@ -38,7 +38,6 @@ class _DashboardState extends State<Dashboard> {
           _buildHeader(screenHeight),
           _buildYourOwnTest(screenHeight),
           _buildPreventionTips(screenHeight),
-          _kategori(screenHeight, context),
           _kategori1(screenHeight, screenWidth, context),
         ],
       ),
@@ -192,65 +191,6 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  SliverToBoxAdapter _kategori(double screenHeight, BuildContext context) {
-    return SliverToBoxAdapter(
-        child: Column(children: [
-      Text(
-        'Kategori Barang ',
-        style: TextStyle(fontSize: 20, fontWeight: semiBold),
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Center(
-        child: Row(
-          children: [
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  padding: EdgeInsets.all(20),
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
-                  height: 130,
-                  decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          image: AssetImage(
-                        'assets/images/logo1.png',
-                      ))),
-                ),
-                Text('ATK'),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  padding: EdgeInsets.all(20),
-                  width: (MediaQuery.of(context).size.width - 90) / 2,
-                  height: 130,
-                  decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/logo1.png',
-                        ),
-                      )),
-                ),
-                Text('Elektronik'),
-                SizedBox(
-                  height: 20,
-                )
-              ],
-            ),
-          ],
-        ),
-      )
-    ]));
-  }
-
   SliverToBoxAdapter _kategori1(
       double screenHeight, double screenWidth, BuildContext context) {
     return SliverToBoxAdapter(
@@ -281,15 +221,34 @@ class _DashboardState extends State<Dashboard> {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         var kategori = snapshot.data.data[index];
-                        return Card(
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Kategori()));
+                          },
                           child: Container(
-                            width: screenWidth * 0.5,
-                            height: 80,
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(left: 20),
+                            padding: EdgeInsets.only(
+                                bottom: 100, left: 10, right: 10, top: 20),
+                            width: (MediaQuery.of(context).size.width - 80) / 2,
                             decoration: BoxDecoration(
-                              color: Colors.blueAccent,
-                            ),
-                            child: Text(kategori.namaKategori),
+                                color: Colors.blue[100],
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/logo1.png',
+                                  ),
+                                )),
+                            child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Text(
+                                  kategori.namaKategori,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                )),
                           ),
                         );
                       },
@@ -302,34 +261,6 @@ class _DashboardState extends State<Dashboard> {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  list(String id, String nama) {
-    BuildContext context;
-    return Card(
-      color: Colors.blue[100],
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.0),
-          side: BorderSide(color: Colors.grey, width: 2)),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-              title: Text(
-                nama,
-                style: TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              subtitle: Text(id),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Kategori(),
-                  ))),
-        ),
       ),
     );
   }

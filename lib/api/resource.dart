@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
@@ -14,7 +13,7 @@ import 'package:users/model/loginModel.dart';
 import 'package:users/model/registerModel.dart';
 
 class Resource {
-  var uri = "https://maisyaroh.com/server_sarpras/api";
+  var uri = "https://tumbasonline.com/sarpras/api";
 
   Future getBarang() async {
     var url = Uri.parse(uri + '/barang');
@@ -119,7 +118,7 @@ class Resource {
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
-      // print(res.statusCode);
+      print(res.statusCode);
       if (res.statusCode == 200) {
         return KategoriModel.fromJson(res.body);
       } else if (res.statusCode == 404) {

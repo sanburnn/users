@@ -29,11 +29,22 @@ class SuccesPage extends StatelessWidget {
               ),
               Container(
                 child: ClipRRect(
-                  child: Image(image: AssetImage("assets/images/ambil.png")),
+                  child:
+                      Image(image: AssetImage("assets/images/assetlogin.png")),
                 ),
               ),
               SizedBox(
                 height: 20,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Peminjaman Anda Segera Kami proses",
+                  style: TextStyle(fontSize: 17),
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -69,13 +80,14 @@ class SuccesPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: Container(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                        shadowColor: Colors.black,
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: Color(0xff665588), width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         )),

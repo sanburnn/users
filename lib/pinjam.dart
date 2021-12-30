@@ -392,7 +392,7 @@ class _PinjamFormState extends State<PinjamForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 80,
+                  height: 50,
                 ),
                 SizedBox(
                   width: 400,

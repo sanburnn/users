@@ -95,11 +95,12 @@ class UsersState extends State<Users> {
                       child: SizedBox(
                         width: 300,
                         height: 75,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFF5F6F9),
                             padding: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(),
-                            backgroundColor: Color(0xFFF5F6F9),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                           ),
                           onPressed: () {},
                           child: Row(
@@ -131,15 +132,15 @@ class UsersState extends State<Users> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      padding:
+                          const EdgeInsets.only(left: 30, right: 30, top: 20),
                       child: SizedBox(
                         width: 300,
                         height: 75,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFF5F6F9),
                             padding: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(),
-                            backgroundColor: Color(0xFFF5F6F9),
                           ),
                           onPressed: () => logOut(),
                           child: Row(

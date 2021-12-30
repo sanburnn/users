@@ -34,14 +34,174 @@ class UsersState extends State<Users> {
         return Future.value(false);
       },
       child: Scaffold(
-        body: Center(
-          child: ElevatedButton(
-              onPressed: () => logOut(),
-              child: Text('Log Out'),
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(180, 50),
-                primary: Palette.primaryColor,
-              )),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                top: -90,
+                left: -125,
+                child: Container(
+                    height: 300,
+                    width: 250,
+                    child: Transform.translate(
+                        offset: Offset(-5.0, 60.0),
+                        child: Opacity(
+                          opacity: 0.3,
+                          child: Image.asset(
+                            'assets/images/elipse2.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ))),
+              ),
+              ListView(
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Text(
+                      'Profile',
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Center(
+                    child: CircleAvatar(
+                      radius: 75,
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                      backgroundColor: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                  )
+                ],
+              ),
+              Positioned(
+                bottom: 180,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: SizedBox(
+                        width: 300,
+                        height: 75,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(),
+                            backgroundColor: Color(0xFFF5F6F9),
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 15,
+                                height: 50,
+                              ),
+                              Container(
+                                child:
+                                    Image.asset('assets/images/abouticons.png'),
+                              ),
+                              Text(
+                                'About',
+                                style: TextStyle(
+                                    color: Color(0xff303030),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontFamily: "Nunito Sans"),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xff909090),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: SizedBox(
+                        width: 300,
+                        height: 75,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(),
+                            backgroundColor: Color(0xFFF5F6F9),
+                          ),
+                          onPressed: () => logOut(),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 15,
+                                height: 50,
+                              ),
+                              Container(
+                                child:
+                                    Image.asset('assets/images/exiticons.png'),
+                              ),
+                              Text(
+                                'Logout',
+                                style: TextStyle(
+                                    color: Color(0xff303030),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontFamily: "Nunito Sans"),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xff909090),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: -40,
+                right: -135,
+                child: Container(
+                    height: 350,
+                    width: 380,
+                    child: Transform.translate(
+                        offset: Offset(-5.0, 60.0),
+                        child: Opacity(
+                          opacity: 0.3,
+                          child: Image.asset(
+                            'assets/images/elipse3.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ))),
+              ),
+              Positioned(
+                bottom: 20,
+                left: 50,
+                child: Text(
+                  'Powered by Team MBKM Jong Java',
+                  style: TextStyle(
+                      fontFamily: 'Open Sans',
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

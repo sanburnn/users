@@ -86,7 +86,7 @@ class Resource {
               },
               body: body)
           .timeout(const Duration(seconds: 11));
-
+      print(res.body);
       if (res.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Berhasil mengajukan')),

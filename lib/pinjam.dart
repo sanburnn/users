@@ -6,6 +6,7 @@ import 'package:users/controller/homeController.dart';
 import 'package:http/http.dart' as http;
 import 'package:users/histori.dart';
 import 'package:users/theme.dart';
+import 'package:users/utils/succesPage.dart';
 
 class PinjamForm extends StatefulWidget {
   final String idBarang;
@@ -65,11 +66,15 @@ class _PinjamFormState extends State<PinjamForm> {
     } else {
       con.addPinjam(context, nama, widget.idBarang, idKategori, nama,
           jumlahPinjam, tanggalKembali, token);
+
       namaController.text = '';
       jumlahPinjamController.text = '';
       tanggalPinjamController.text = '';
       tanggalKembaliController.text = '';
-      setState(() {});
+      setState(() {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => SuccesPage()));
+      });
     }
   }
 
@@ -78,119 +83,276 @@ class _PinjamFormState extends State<PinjamForm> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Form Peminjaman'),
+        backgroundColor: Colors.white,
+        leading: Icon(
+          Icons.arrow_back_ios,
+          color: Color(0xff665588),
+        ),
+        title: Text(
+          'Form Peminjaman',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(children: [
           Container(
-            padding: EdgeInsets.all(8.0),
-            child: Card(
-              child: ListTile(
-                title: Text(nama),
-                subtitle: Text(stok),
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Barang yang di Pinjam",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.only(bottom: 10),
-            child: TextField(
-              controller: tanggalPinjamController,
-              decoration: InputDecoration(
-                  hintText: "Tanggal Pinjam",
-                  labelText: "Tanggal Pinjam",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0))),
-              textAlign: TextAlign.left,
-              onTap: () async {
-                DateTime date = DateTime(1900);
-                FocusScope.of(context).requestFocus(new FocusNode());
-
-                date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now().subtract(Duration(days: 0)),
-                  lastDate: DateTime(2100),
-                );
-                if (date != null) {
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                  tanggalPinjamController.text = formattedDate;
-                  DateTime datetime = DateTime.parse(formattedDate);
-                  datePinjamController.text = datetime.toString();
-                }
-                if (date == null) {
-                  Fluttertoast.showToast(
-                      msg: "Tangga Masih Kosong",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.grey,
-                      textColor: Colors.white,
-                      fontSize: 15.0);
-                }
-              },
-            ),
+          SizedBox(
+            height: 15,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.only(bottom: 10),
-            child: TextField(
-              controller: tanggalKembaliController,
-              decoration: InputDecoration(
-                  hintText: "Tanggal Kembali",
-                  labelText: "Tanggal Kembali",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0))),
-              textAlign: TextAlign.left,
-              onTap: () async {
-                DateTime date = DateTime(1900);
-                FocusScope.of(context).requestFocus(new FocusNode());
-
-                date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now().subtract(Duration(days: 0)),
-                  lastDate: DateTime(2100),
-                );
-                if (date != null) {
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                  tanggalKembaliController.text = formattedDate;
-                  DateTime datetime = DateTime.parse(formattedDate);
-                  dateKembaliController.text = datetime.toString();
-                }
-                if (date == null) {
-                  Fluttertoast.showToast(
-                      msg: "Tangga Masih Kosong",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.grey,
-                      textColor: Colors.white,
-                      fontSize: 15.0);
-                }
-              },
+            height: 80,
+            padding: EdgeInsets.only(left: 15, right: 130),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              color: Color(0xffF5F0FF),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      nama,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Divider(
+                    height: 20,
+                    color: Colors.grey,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("Stok : " + stok),
+                  ),
+                ],
+              ),
             ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           Container(
             child: Padding(
               padding: EdgeInsets.all(10.0),
-              child: TextField(
-                controller: jumlahPinjamController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    hintText: "jumlah Terpinjam",
-                    labelText: "jumlah Barang",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 100),
+                    child: Text(
+                      "Jumlah Barang",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 8, left: 10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: Color(0xffF5F0FF)),
+                    child: TextField(
+                      controller: jumlahPinjamController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "jumlah Terpinjam",
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
           Container(
-              child: ElevatedButton(
-            onPressed: () => addPinjam(),
-            child: Text('Ajukan'),
-          ))
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.only(bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Tanggal Pinjam",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  margin: EdgeInsets.only(right: 130),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Color(0xffF5F0FF),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3))
+                      ]),
+                  child: TextField(
+                    controller: tanggalPinjamController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      suffixIcon: Icon(
+                        Icons.calendar_today,
+                        color: Colors.black,
+                      ),
+                      hintText: "2021/12/29",
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    textAlign: TextAlign.left,
+                    onTap: () async {
+                      DateTime date = DateTime(1900);
+                      FocusScope.of(context).requestFocus(new FocusNode());
+
+                      date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now().subtract(Duration(days: 0)),
+                        lastDate: DateTime(2100),
+                      );
+                      if (date != null) {
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(date);
+                        tanggalPinjamController.text = formattedDate;
+                        DateTime datetime = DateTime.parse(formattedDate);
+                        datePinjamController.text = datetime.toString();
+                      }
+                      if (date == null) {
+                        Fluttertoast.showToast(
+                            msg: "Tangga Masih Kosong",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.white,
+                            fontSize: 15.0);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.only(bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Tanggal kembali",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  margin: EdgeInsets.only(right: 130),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Color(0xffF5F0FF),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3))
+                      ]),
+                  child: TextField(
+                    controller: tanggalKembaliController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      suffixIcon: Icon(
+                        Icons.calendar_today,
+                        color: Colors.black,
+                      ),
+                      hintText: "2021/12/29",
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    textAlign: TextAlign.left,
+                    onTap: () async {
+                      DateTime date = DateTime(1900);
+                      FocusScope.of(context).requestFocus(new FocusNode());
+
+                      date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now().subtract(Duration(days: 0)),
+                        lastDate: DateTime(2100),
+                      );
+                      if (date != null) {
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(date);
+                        tanggalKembaliController.text = formattedDate;
+                        DateTime datetime = DateTime.parse(formattedDate);
+                        dateKembaliController.text = datetime.toString();
+                      }
+                      if (date == null) {
+                        Fluttertoast.showToast(
+                            msg: "Tangga Masih Kosong",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.white,
+                            fontSize: 15.0);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 80,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Color(0xff665588)),
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff665588),
+                    onPrimary: Colors.white, // foreground
+                  ),
+                  onPressed: () => addPinjam(),
+                  child: Text('Ajukan'),
+                )),
+          )
         ]),
       ),
     );

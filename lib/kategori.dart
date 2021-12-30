@@ -13,77 +13,203 @@ class Kategori extends StatefulWidget {
 
 class _KategoriState extends State<Kategori> {
   final con = HomeController();
+  List<Datum> barang = <Datum>[];
+  List<Datum> caribarang;
 
   @override
   void initState() {
     super.initState();
     con.getBarang();
+    con.resBarang.listen((value) {
+      if (mounted)
+        setState(() {
+          if (barang.isNotEmpty) {
+            if (mounted)
+              setState(() {
+                barang.clear();
+              });
+          } else {
+            barang.addAll(value.data);
+            caribarang = barang;
+          }
+        });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Daftar Barang'),
-        leading: Container(),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: RefreshIndicator(
-          onRefresh: () async {
-            con.getBarang();
-          },
-          child: StreamBuilder<BarangModel>(
-              stream: con.resBarang.stream,
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data.data == null) {
-                    return Center(
-                      child: Text('Data kosong '),
-                    );
-                  } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data.data.length,
-                        itemBuilder: (context, index) {
-                          Datum barang = snapshot.data.data[index];
-                          return list(
-                              barang.idBarang, barang.nama, barang.stok);
-                        });
-                  }
-                }
-                return Center(child: CircularProgressIndicator());
-              }),
+      body: ListView(children: [
+        Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 30, left: 25, right: 25),
+          height: 100,
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "HELLO USERS",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffBC9CFF)),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Yuk Cari barang yang ingin di pinjam !",
+                  style: TextStyle(fontSize: 14),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+        SizedBox(
+          height: 15,
+        ),
+        Container(
+          padding: EdgeInsets.only(bottom: 8, left: 20, right: 20),
+          height: 60,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: TextFormField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Colors.blue,
+                ),
+                hintText: "Search Sampah",
+                hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400])),
+            onChanged: (value) {
+              setState(() {
+                caribarang = barang.where((element) {
+                  var namaSampah = element.nama.toLowerCase();
+                  return namaSampah.contains(value);
+                }).toList();
+              });
+            },
+          ),
+        ),
+        Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: caribarang == null
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                    // padding: EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(top: 8),
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (BuildContext con, _) => Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 12),
+                                    height: 110,
+                                    width: 110,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.white),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: 8, top: 8, left: 8),
+                                        height: 10,
+                                        width: 150,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(bottom: 8, left: 8),
+                                        height: 10,
+                                        width: 200,
+                                        color: Colors.white,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 8),
+                                        height: 10,
+                                        width: 80,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            itemCount: 7,
+                          ),
+                        ),
+                      ],
+                    ))
+                : list()),
+      ]),
     );
   }
 
-  Widget list(String idBarang, String nama, String stok) {
-    return Card(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.0),
-          side: BorderSide(color: Colors.grey, width: 2)),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-              title: Text(
-                nama,
-                style: TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              subtitle: Text(
-                "stok : $stok",
-                style: TextStyle(fontSize: 15),
-              ),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PinjamForm(idBarang: idBarang),
-                  ))),
-        ),
-      ),
-    );
+  Widget list() {
+    return Container(
+        height: 50,
+        padding: EdgeInsets.only(bottom: 60),
+        child: caribarang.isEmpty
+            ? Center()
+            : ListView.builder(
+                itemCount: caribarang.length,
+                itemBuilder: (context, i) {
+                  return Container(
+                    height: 80,
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Card(
+                      color: Color(0xffE7DCFE),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                            title: Text(
+                              caribarang[i].nama,
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "stok : " + caribarang[i].stok,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PinjamForm(
+                                      idBarang: caribarang[i].idBarang),
+                                ))),
+                      ),
+                    ),
+                  );
+                }));
   }
 }

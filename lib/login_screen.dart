@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 10,
                 child: Container(
                   padding: EdgeInsets.all(10),
-                  height: 70,
+                  height: 50,
                   child: Row(
                     children: [
                       InkWell(
@@ -120,12 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 children: [
                   SizedBox(
-                    height: 28,
+                    height: 20,
                   ),
                   Container(
                     child: Image(
-                      width: MediaQuery.of(context).size.width,
-                      height: 350,
+                      width: 300,
+                      height: 300,
                       image: AssetImage('assets/images/assetlogin.png'),
                     ),
                   ),

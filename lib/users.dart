@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:users/about.dart';
 import 'package:users/config/palette.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/landing.dart';
@@ -53,8 +54,8 @@ class UsersState extends State<Users> {
                           ),
                         ))),
               ),
-              ListView(
-                children: <Widget>[
+              Column(
+                children: [
                   SizedBox(
                     height: 30,
                   ),
@@ -101,7 +102,12 @@ class UsersState extends State<Users> {
                             shape: RoundedRectangleBorder(),
                             backgroundColor: Color(0xFFF5F6F9),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => About()));
+                          },
                           child: Row(
                             children: [
                               SizedBox(

@@ -101,7 +101,7 @@ class _PinjamFormState extends State<PinjamForm> {
                       ))),
             ),
             Positioned(
-              top: 50,
+              top: 40,
               left: 10,
               child: Container(
                 padding: EdgeInsets.all(10),
@@ -127,7 +127,7 @@ class _PinjamFormState extends State<PinjamForm> {
             Column(
               children: <Widget>[
                 SizedBox(
-                  height: 75,
+                  height: 65,
                 ),
                 Center(
                   child: Text(

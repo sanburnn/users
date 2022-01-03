@@ -146,7 +146,7 @@ class Resource {
       final res = await http.get(url, headers: {
         'Authorization': token
       }).timeout(const Duration(seconds: 11));
-
+      // print(res.body);
       if (res.statusCode == 200) {
         return HistoriModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
@@ -158,7 +158,7 @@ class Resource {
       throw Exception(e.toString());
     } on HttpException {
       {
-        throw Exception("Tidak Menemukan Post");
+        throw Exception("Tidak Menemukan Riwayat");
       }
     } on FormatException {
       throw Exception('Request Salah');

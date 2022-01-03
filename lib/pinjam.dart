@@ -36,7 +36,7 @@ class _PinjamFormState extends State<PinjamForm> {
       stok = value.data.stok;
       idKategori = value.data.idKategori;
 
-      print(nama);
+      print(widget.idBarang);
       setState(() {});
     });
   }
@@ -64,13 +64,14 @@ class _PinjamFormState extends State<PinjamForm> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.addPinjam(context, nama, widget.idBarang, idKategori, nama,
+      con.addPinjam(context, "9", widget.idBarang, idKategori, nama,
           jumlahPinjam, tanggalKembali, token);
 
       namaController.text = '';
       jumlahPinjamController.text = '';
       tanggalPinjamController.text = '';
       tanggalKembaliController.text = '';
+
       setState(() {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => SuccesPage()));
@@ -392,7 +393,7 @@ class _PinjamFormState extends State<PinjamForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 80,
+                  height: 50,
                 ),
                 SizedBox(
                   width: 400,

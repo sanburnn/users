@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/theme.dart';
@@ -33,8 +34,13 @@ class _HistoriState extends State<Histori> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Riwayat Peminjaman'),
-          leading: Container(),
+          title: Text(
+            'Histori',
+          ),
+          leading: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
         ),
         body: SafeArea(
             child: Center(
@@ -57,11 +63,23 @@ class _HistoriState extends State<Histori> {
                                   return ListView.builder(
                                       itemCount: snapshot.data.data.length,
                                       itemBuilder: (context, index) {
+                                        var tanggalkembali =
+                                            DateFormat('dd-MM-yyyy').format(
+                                                snapshot.data.data[index]
+                                                    .tanggalKembali
+                                                    .toLocal());
+                                        var tanggalpinjam =
+                                            DateFormat('dd-MM-yyyy').format(
+                                                snapshot.data.data[index]
+                                                    .tanggalPinjam
+                                                    .toLocal());
                                         Datum riwayat =
                                             snapshot.data.data[index];
                                         return list(
                                             riwayat.nama,
                                             riwayat.jumlah,
+                                            tanggalkembali,
+                                            tanggalpinjam,
                                             riwayat.statusTransaksi);
                                       });
                                 }
@@ -72,32 +90,134 @@ class _HistoriState extends State<Histori> {
                     )))));
   }
 
-  Widget list(String judul, String jumlah, String ket) {
+  Widget list(String judul, String jumlah, String ket, String tanggalpinjam,
+      String tanggalkembali) {
     return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 5.0,
+              )
+            ]),
+        child: Container(
+          height: 185,
+          child: Column(
             children: [
-              Text(
-                judul,
-                style: TextStyle(fontSize: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    child: Text(
+                      judul,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    child: Text(
+                      ket == "0"
+                          ? "di proses"
+                          : ket == "1"
+                              ? "Berhasil"
+                              : ket == "2"
+                                  ? "Sudah dikembalikan"
+                                  : "ditolak",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
+              Divider(
+                height: 10,
+                thickness: 3,
+                color: Colors.grey.withOpacity(0.5),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child:
+                              Text("Jika ada Masalah Segera Lapor ke penjaga")),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Jumlah  : " + jumlah,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Tanggal Pinjam",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(tanggalpinjam),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  "Tanggal Kembali",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(tanggalpinjam),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
-          Text('Jumlah yang di pinjam : $jumlah'),
-          SizedBox(height: 15),
-          Text(ket == "0"
-              ? "Pengajuan di proses"
-              : ket == "1"
-                  ? "Peminjaman Berhasil"
-                  : ket == "2"
-                      ? "Barang Sudah dikembalikan"
-                      : "Pengajuan diTolak"),
-          Divider(),
-        ],
+        ),
       ),
     );
   }

@@ -34,12 +34,13 @@ class _HistoriState extends State<Histori> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Histori',
-          ),
-          leading: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 3,
+          title: Center(
+            child: Text(
+              'Histori',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ),
         body: SafeArea(

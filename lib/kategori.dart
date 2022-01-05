@@ -38,74 +38,90 @@ class _KategoriState extends State<Kategori> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Colors.white,
-        child: ListView(children: [
-          Container(
-            padding: EdgeInsets.only(top: 40, left: 25, right: 25),
-            height: 105,
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "HELLO USERS",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xffBC9CFF)),
+    return SafeArea(
+      child: Scaffold(
+        body: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 115,
+                  color: Color(0xFFF7F7F7),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 150, top: 20),
+                        child: Text(
+                          "HELLO USERS,",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffBC9CFF)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 70),
+                        child: Text(
+                          "Yuk Cari barang yang ingin di pinjam !",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+              ),
+              SliverAppBar(
+                pinned: true,
+                floating: true,
+                expandedHeight: 50,
+                centerTitle: true,
+                bottom: AppBar(
+                  toolbarHeight: 52,
+                  backgroundColor: Color(0xFFF7F7F7),
+                  title: Container(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    height: 48,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: Colors.blue,
+                          ),
+                          filled: true,
+                          fillColor: Color(0xffF5F0FF),
+                          hintText: "Search Sampah",
+                          hintStyle:
+                              TextStyle(fontSize: 14, color: Colors.grey[400])),
+                      onChanged: (value) {
+                        setState(() {
+                          caribarang = barang.where((element) {
+                            var namaSampah = element.nama.toLowerCase();
+                            return namaSampah.contains(value);
+                          }).toList();
+                        });
+                      },
+                    ),
+                  ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Yuk Cari barang yang ingin di pinjam !",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: 8, left: 20, right: 20),
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  suffixIcon: Icon(
-                    Icons.search,
-                    color: Colors.blue,
-                  ),
-                  hintText: "Search Sampah",
-                  hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400])),
-              onChanged: (value) {
-                setState(() {
-                  caribarang = barang.where((element) {
-                    var namaSampah = element.nama.toLowerCase();
-                    return namaSampah.contains(value);
-                  }).toList();
-                });
-              },
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
+              )
+            ];
+          },
+          body: Container(
               height: MediaQuery.of(context).size.height * 0.8,
+              padding: EdgeInsets.only(bottom: 0),
               child: caribarang == null
                   ? Container(
                       width: MediaQuery.of(context).size.width,
@@ -173,7 +189,7 @@ class _KategoriState extends State<Kategori> {
                         ],
                       ))
                   : list()),
-        ]),
+        ),
       ),
     );
   }
@@ -181,14 +197,13 @@ class _KategoriState extends State<Kategori> {
   Widget list() {
     return Container(
         height: 50,
-        padding: EdgeInsets.only(bottom: 60),
         child: caribarang.isEmpty
             ? Center()
             : ListView.builder(
                 itemCount: caribarang.length,
                 itemBuilder: (context, i) {
                   return Container(
-                    height: 85,
+                    height: 100,
                     padding: EdgeInsets.only(left: 15, right: 15),
                     child: Card(
                       color: Color(0xffE7DCFE),
@@ -199,13 +214,22 @@ class _KategoriState extends State<Kategori> {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                             leading: Image(
-                              image: AssetImage("assets/images/atk.png"),
+                              image: AssetImage("assets/images/barang.png"),
                             ),
-                            title: Text(
-                              caribarang[i].nama,
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
+                            title: Row(
+                              children: [
+                                Text(
+                                  caribarang[i].nama,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xff909090),
+                                )
+                              ],
                             ),
                             subtitle: Text(
                               "stok : " + caribarang[i].stok,

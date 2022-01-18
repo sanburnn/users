@@ -6,6 +6,7 @@ import 'package:users/config/palette.dart';
 import 'package:users/controller/homeController.dart';
 import 'package:users/landing.dart';
 import 'package:users/intro_screen.dart';
+import 'package:users/model/DatauserModel.dart';
 
 class Users extends StatefulWidget {
   @override
@@ -25,6 +26,12 @@ class UsersState extends State<Users> {
         MaterialPageRoute(
           builder: (context) => IntroPage(),
         ));
+  }
+
+  @override
+  void initState() {
+    con.getUser();
+    super.initState();
   }
 
   @override
@@ -89,95 +96,111 @@ class UsersState extends State<Users> {
               ),
               Positioned(
                 bottom: 180,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30),
-                      child: SizedBox(
-                        width: 300,
-                        height: 75,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(),
-                            backgroundColor: Color(0xFFF5F6F9),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => About()));
-                          },
-                          child: Row(
+                child: StreamBuilder<DataUserModel>(
+                    stream: con.resDataUser.stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data.message == null) {
+                          return Text("data");
+                        } else {
+                          List<Datum> list = snapshot.data.data;
+                          return Column(
                             children: [
-                              SizedBox(
-                                width: 15,
-                                height: 50,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 30, right: 30),
+                                child: SizedBox(
+                                  width: 300,
+                                  height: 75,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.all(20),
+                                      shape: RoundedRectangleBorder(),
+                                      backgroundColor: Color(0xFFF5F6F9),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => About(
+                                                    iduser: list.first.idUser,
+                                                  )));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 15,
+                                          height: 50,
+                                        ),
+                                        Container(
+                                          child: Image.asset(
+                                              'assets/images/abouticons.png'),
+                                        ),
+                                        Text(
+                                          'About',
+                                          style: TextStyle(
+                                              color: Color(0xff303030),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: "Nunito Sans"),
+                                        ),
+                                        Spacer(),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Color(0xff909090),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/abouticons.png'),
-                              ),
-                              Text(
-                                'About',
-                                style: TextStyle(
-                                    color: Color(0xff303030),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    fontFamily: "Nunito Sans"),
-                              ),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xff909090),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 30, right: 30),
+                                child: SizedBox(
+                                  width: 300,
+                                  height: 75,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.all(20),
+                                      shape: RoundedRectangleBorder(),
+                                      backgroundColor: Color(0xFFF5F6F9),
+                                    ),
+                                    onPressed: () => logOut(),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 15,
+                                          height: 50,
+                                        ),
+                                        Container(
+                                          child: Image.asset(
+                                              'assets/images/exiticons.png'),
+                                        ),
+                                        Text(
+                                          'Logout',
+                                          style: TextStyle(
+                                              color: Color(0xff303030),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: "Nunito Sans"),
+                                        ),
+                                        Spacer(),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Color(0xff909090),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30),
-                      child: SizedBox(
-                        width: 300,
-                        height: 75,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(),
-                            backgroundColor: Color(0xFFF5F6F9),
-                          ),
-                          onPressed: () => logOut(),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 15,
-                                height: 50,
-                              ),
-                              Container(
-                                child:
-                                    Image.asset('assets/images/exiticons.png'),
-                              ),
-                              Text(
-                                'Logout',
-                                style: TextStyle(
-                                    color: Color(0xff303030),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    fontFamily: "Nunito Sans"),
-                              ),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xff909090),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                          );
+                        }
+                      }
+                      return Container();
+                    }),
               ),
               Positioned(
                 bottom: -40,

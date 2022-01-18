@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:users/model/DatauserModel.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
@@ -11,6 +12,7 @@ import 'package:users/model/jurusanModel.dart';
 import 'package:users/model/kategoriModel.dart';
 import 'package:users/model/loginModel.dart';
 import 'package:users/model/registerModel.dart';
+import 'package:users/model/userModel.dart';
 
 class Resource {
   var uri = "https://tumbasonline.com/sarpras/api";
@@ -261,6 +263,60 @@ class Resource {
         return JurusanModel.fromJson(res.body);
       } else if (res.statusCode == 404) {
         return JurusanModel.fromJson(res.body);
+      } else {
+        throw Exception('Failur Response');
+      }
+    } on SocketException catch (e) {
+      throw Exception(e.toString());
+    } on HttpException {
+      {
+        throw Exception("Tidak Menemukan Post");
+      }
+    } on FormatException {
+      throw Exception('Request Salah');
+    } on TimeoutException catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future getuser() async {
+    var url = Uri.parse(uri + '/user');
+
+    try {
+      final res = await http.get(url).timeout(const Duration(seconds: 11));
+      print(res.body);
+      if (res.statusCode == 200) {
+        return DataUserModel.fromJson(res.body);
+      } else if (res.statusCode == 404) {
+        return DataUserModel.fromJson(res.body);
+      } else {
+        throw Exception('Failur Response');
+      }
+    } on SocketException catch (e) {
+      throw Exception(e.toString());
+    } on HttpException {
+      {
+        throw Exception("Tidak Menemukan Post");
+      }
+    } on FormatException {
+      throw Exception('Request Salah');
+    } on TimeoutException catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future getUserId(String iduser, String token) async {
+    var url = Uri.parse('$uri/user/get_Id/$iduser');
+
+    try {
+      final res = await http.get(url, headers: {
+        'Authorization': token
+      }).timeout(const Duration(seconds: 11));
+      print(res.body);
+      if (res.statusCode == 200) {
+        return UserModel.fromJson(res.body);
+      } else if (res.statusCode == 404) {
+        return UserModel.fromJson(res.body);
       } else {
         throw Exception('Failur Response');
       }

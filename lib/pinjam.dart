@@ -36,7 +36,7 @@ class _PinjamFormState extends State<PinjamForm> {
       stok = value.data.stok;
       idKategori = value.data.idKategori;
 
-      print(widget.idBarang);
+      // print(widget.idBarang);
       setState(() {});
     });
   }

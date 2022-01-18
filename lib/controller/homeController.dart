@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:users/api/repostory.dart';
+import 'package:users/model/DatauserModel.dart';
 import 'package:users/model/barangIdModel.dart';
 import 'package:users/model/barangModel.dart';
 import 'package:users/model/historiModel.dart';
@@ -8,6 +9,7 @@ import 'package:users/model/jurusanModel.dart';
 import 'package:users/model/kategoriModel.dart';
 import 'package:users/model/loginModel.dart';
 import 'package:users/model/registerModel.dart';
+import 'package:users/model/userModel.dart';
 
 class HomeController {
   final repostory = Repostory();
@@ -19,6 +21,8 @@ class HomeController {
   final _registerFetchar = PublishSubject<RegisterModel>();
   final _loginFetchar = PublishSubject<LoginModel>();
   final _jurusanFetchar = PublishSubject<JurusanModel>();
+  final _userFetchar = PublishSubject<UserModel>();
+  final _datauserFetchar = PublishSubject<DataUserModel>();
 
   PublishSubject<BarangModel> get resBarang => _barangFetchar;
   PublishSubject<BarangIdModel> get resIdBarang => _barangIdFetchar;
@@ -27,6 +31,8 @@ class HomeController {
   PublishSubject<RegisterModel> get resResgiter => _registerFetchar;
   PublishSubject<LoginModel> get reslogin => _loginFetchar;
   PublishSubject<JurusanModel> get resJurusan => _jurusanFetchar;
+  PublishSubject<UserModel> get resuser => _userFetchar;
+  PublishSubject<DataUserModel> get resDataUser => _datauserFetchar;
 
   void getBarang() async {
     try {
@@ -117,6 +123,24 @@ class HomeController {
     }
   }
 
+  void getUser() async {
+    try {
+      DataUserModel dataUser = await repostory.getuser();
+      _datauserFetchar.sink.add(dataUser);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void getUserId(iduser, token) async {
+    try {
+      UserModel user = await repostory.getUserid(iduser, token);
+      _userFetchar.sink.add(user);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void dipose() {
     _barangFetchar.close();
     _barangIdFetchar.close();
@@ -125,5 +149,6 @@ class HomeController {
     _registerFetchar.close();
     _loginFetchar.close();
     _jurusanFetchar.close();
+    _userFetchar.close();
   }
 }

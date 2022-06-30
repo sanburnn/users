@@ -64,7 +64,7 @@ class _PinjamFormState extends State<PinjamForm> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.addPinjam(context, "9", widget.idBarang, idKategori, nama,
+      con.addPinjam(context, "10", widget.idBarang, idKategori, nama,
           jumlahPinjam, tanggalKembali, token);
 
       namaController.text = '';

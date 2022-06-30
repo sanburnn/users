@@ -39,4 +39,8 @@ class Repostory {
       api.login(context, email, pass);
 
   Future getJurusan() => api.getJurusan();
+
+  Future getuser() => api.getuser();
+
+  Future getUserid(String iduser, String token) => api.getUserId(iduser, token);
 }

@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       con.reslogin.listen((value) async {
         if (value.status) {
           await shared.setString('token', value.data.jwtToken);
+          await shared.setString('iduser', value.data.iduser);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

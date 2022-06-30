@@ -34,29 +34,27 @@ class LoginModel {
 }
 
 class Data {
-  Data({
-    this.jwtToken,
-    this.email,
-    this.namaUser,
-  });
+  Data({this.jwtToken, this.email, this.namaUser, this.iduser});
 
   String jwtToken;
   String email;
   String namaUser;
+  String iduser;
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory Data.fromMap(Map<String, dynamic> json) => Data(
-        jwtToken: json["jwt_token"],
-        email: json["email"],
-        namaUser: json["nama_user"],
-      );
+      jwtToken: json["jwt_token"],
+      email: json["email"],
+      namaUser: json["nama_user"],
+      iduser: json["id_user"]);
 
   Map<String, dynamic> toMap() => {
         "jwt_token": jwtToken,
         "email": email,
         "nama_user": namaUser,
+        "id_user": iduser
       };
 }

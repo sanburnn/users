@@ -39,6 +39,8 @@ dependencies:
   introduction_screen: ^1.0.9
   flutter_svg: ^0.20.0-nullsafety.3
   fluttertoast: ^8.0.8
+  provider: ^6.0.2
+
   
 dev_dependencies:
   flutter_test:

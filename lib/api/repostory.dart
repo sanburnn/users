@@ -44,3 +44,5 @@ class Repostory {
 
   Future getUserid(String iduser, String token) => api.getUserId(iduser, token);
 }
+
+final repo = Repostory();

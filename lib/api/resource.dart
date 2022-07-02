@@ -22,7 +22,7 @@ class Resource {
 
     try {
       final res = await http.get(url).timeout(const Duration(seconds: 11));
-      // print(res.body);
+      print(res.body);
       if (res.statusCode == 200) {
         return BarangModel.fromJson(res.body);
       } else if (res.statusCode == 404) {

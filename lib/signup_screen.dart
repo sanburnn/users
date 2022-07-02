@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isHidden = true;
   int jurusan;
   String selectedJurusan;
-  List<String> jurusanController = ['Teknik Informatika', 'Teknik Mesin'];
+  // List<String> jurusanController = ['Teknik Informatika', 'Teknik Mesin'];
 
   Future regsiter() async {
     String nim = nimController.text;

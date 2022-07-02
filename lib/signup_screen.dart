@@ -463,6 +463,30 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 70, left: 70),
+                    child: Row(
+                      children: [
+                        Text('Already have account?'),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            child: Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff665588)),
+                            ))
+                      ],
+                    ),
+                  ),
+                  SizedBox(
                     height: 50,
                   )
                 ],

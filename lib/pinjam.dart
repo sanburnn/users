@@ -57,6 +57,7 @@ class _PinjamFormState extends State<PinjamForm> {
 
     SharedPreferences pref = await SharedPreferences.getInstance();
     String token = pref.getString('token');
+    String iduser = pref.getString('iduser');
     if (int.parse(jumlahPinjam) >= int.parse(stok) ||
         jumlahPinjam == '' ||
         tanggalPinjam == '' ||
@@ -64,7 +65,7 @@ class _PinjamFormState extends State<PinjamForm> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Form Harus Diisi !!')));
     } else {
-      con.addPinjam(context, "9", widget.idBarang, idKategori, nama,
+      con.addPinjam(context, iduser, widget.idBarang, idKategori, nama,
           jumlahPinjam, tanggalKembali, token);
 
       namaController.text = '';
